@@ -439,6 +439,7 @@ body {
     border: 1px solid #eee;
     border-radius: 8px;
     background: white;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
 }
 
 .section-box h3 {
@@ -523,6 +524,7 @@ body {
         flex-direction: column;
     }
 }
+
 
 
 
