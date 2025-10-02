@@ -86,8 +86,8 @@ body {
 
 .cta-button.secondary {
     background-color: white;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    color: #000000;
+    border: 1px solid #000000;
 }
 
 .cta-button:hover {
@@ -523,6 +523,7 @@ body {
         flex-direction: column;
     }
 }
+
 
 
 
