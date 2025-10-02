@@ -105,8 +105,12 @@
                     const userRole = result.role || profileData.type || 'company';
                     
                     // Зберігаємо дані в localStorage 
+// Зберігаємо токен
                     localStorage.setItem('userToken', result.token);
-                    localStorage.setItem('userProfile', JSON.stringify(profileData));
+
+// Зберігаємо лише профільні дані
+                    localStorage.setItem('userProfile', JSON.stringify(result.profile_data));
+              
 
                     // Перенаправлення залежно від ролі
                     if (userRole === 'influencer') {
