@@ -1,109 +1,227 @@
-/* * Стилі, що відповідають Філософії UNIX:
- * - Максимальна ясність та контраст.
- * - Моноширинний шрифт.
- * - Рамки та мінімалізм.
- */
-
+/* Основні змінні та скидання стилів */
 :root {
-    --text-color: #000000;
-    --background-color: #FFFFFF;
-    --accent-color: #008000; /* Яскраво-зелений акцент (як у старому терміналі) */
-    --border-color: #CCCCCC;
+    --primary-color: #007bff; /* Яскравий синій для CTA */
+    --secondary-color: #f0f4f7; /* Світло-сірий для фону */
+    --text-dark: #2c3e50; /* Темний текст */
+    --text-light: #7f8c8d; /* Світлий текст */
+    --accent-color: #ff9f43; /* Акцентний колір, наприклад, для кнопок блогерів */
+    --font-family: 'Inter', sans-serif; /* Рекомендований шрифт */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Courier New', monospace; /* Моноширинний шрифт для естетики терміналу */
-    background-color: var(--background-color);
-    color: var(--text-color);
-    margin: 40px auto; /* Залишаємо поля, щоб не "прилипати" до країв */
-    max-width: 800px; /* Обмежуємо ширину, як консольне вікно */
-    padding: 0 20px;
+    font-family: var(--font-family);
+    color: var(--text-dark);
     line-height: 1.6;
+    background-color: white;
 }
 
-/* Скидання стилів для посилань */
-a {
-    color: var(--accent-color);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-a:hover {
-    text-decoration: underline;
-    background-color: var(--accent-color);
-    color: var(--background-color);
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid var(--border-color);
-    margin: 20px 0;
-}
-
-/* 1. HEADER (Навігація) */
-header {
+/* --- 1. Навігація --- */
+.main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 10px;
+    padding: 20px 5%;
+    border-bottom: 1px solid #ecf0f1;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-header .logo a {
-    font-weight: bold;
-    color: var(--text-color);
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
 }
 
-/* 2. MAIN ACTION (Головний CTA) */
-.main-action {
-    text-align: center;
-    padding: 40px 0;
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin-left: 25px;
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
-.main-action h1 {
-    font-size: 2em;
-    font-weight: 900;
-    margin-top: 0;
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+
+.signup-btn {
+    background-color: var(--primary-color);
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-left: 30px;
+}
+
+/* --- 2. Секція HERO --- */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 5%;
+    min-height: 60vh;
+    background-color: var(--secondary-color); /* Світлий фон для контрасту */
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.cta-group {
+    display: flex;
+    gap: 15px;
 }
 
 .cta-button {
-    display: inline-block;
-    padding: 10px 20px;
-    border: 2px solid var(--accent-color);
-    background-color: transparent;
-    color: var(--accent-color);
-    font-weight: bold;
-    margin-top: 20px;
-    transition: all 0.1s;
+    text-decoration: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.cta-button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.cta-button.secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 .cta-button:hover {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    text-decoration: none;
-    box-shadow: 2px 2px 0px 0px var(--accent-color); /* Ефект "натискання" */
+    transform: translateY(-2px);
 }
 
-/* 3. DATA STREAM (Потік Даних) */
-.data-stream h2 {
-    font-size: 1.2em;
-    font-weight: normal;
-    margin-bottom: 5px;
+.hero-visual {
+    max-width: 40%;
+    /* Замініть на реальне зображення */
+}
+.hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Стиль для імітації виводу команди ls -l або cat */
-.listing-table {
-    white-space: pre; /* Зберігаємо форматування таблиці за допомогою пробілів */
-    background-color: #F8F8F8;
-    border: 1px solid var(--border-color);
-    padding: 10px;
-    overflow-x: auto;
-    font-size: 0.9em;
-}
-
-/* 4. FOOTER (Довідкові Файли) */
-footer {
+/* --- 3. Секція Цінності --- */
+.value-section {
+    padding: 80px 5%;
     text-align: center;
-    font-size: 0.8em;
-    color: #555555;
-    padding-top: 10px;
+}
+
+.value-section h2 {
+    margin-bottom: 50px;
+    font-size: 32px;
+}
+
+.value-columns {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.value-card {
+    flex: 1;
+    text-align: left;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.value-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.value-card ul {
+    list-style: none;
+}
+
+.value-card li {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.value-card li i {
+    margin-right: 10px;
+    color: var(--primary-color); /* Колір іконок */
+}
+
+/* --- 4. Фінальний CTA --- */
+.final-cta {
+    text-align: center;
+    padding: 60px 5%;
+    background-color: #f7f9fb;
+    border-top: 1px solid #ecf0f1;
+}
+
+.final-cta h2 {
+    margin-bottom: 30px;
+    font-size: 36px;
+}
+
+.cta-button.large {
+    padding: 16px 40px;
+    font-size: 18px;
+}
+
+
+/* --- 5. Футер --- */
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    font-size: 14px;
+    color: var(--text-light);
+    border-top: 1px solid #ecf0f1;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Адаптивність (Базові правила) */
+@media (max-width: 900px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content, .hero-visual {
+        max-width: 100%;
+    }
+
+    .hero-visual {
+        margin-top: 40px;
+    }
+
+    .value-columns {
+        flex-direction: column;
+    }
 }
