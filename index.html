@@ -11,12 +11,6 @@
 
     <header class="main-header">
         <div class="logo">Fluenc.</div>
-        <!-- <nav class="main-nav">
-            <a href="#" class="nav-item">Інфлюенсери</a>
-            <a href="#" class="nav-item">Компанії</a>
-            <a href="./login.html" class="nav-item login-btn">Увійти</a>
-            <a href="./register.html" class="nav-item signup-btn">Реєстрація</a>
-        </nav> -->
         <nav class="main-nav">
             <a href="index.html" class="nav-item">Головна</a>
             <a href="company-discovery.html" class="nav-item">Пошук</a>
@@ -80,123 +74,10 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
-<script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const profileDataRaw = localStorage.getItem('userProfile');
-            const isLoggedIn = !!profileDataRaw;
-            const LOGIN_PATH = '/flpl/login.html'; 
 
-            // Отримання елементів навігації
-            const navMyProfile = document.getElementById('navMyProfile');
-            const navLogoutBtn = document.getElementById('navLogoutBtn');
-            const navLogin = document.getElementById('navLogin');
-            const navSignup = document.getElementById('navSignup');
-            
-            // =========================================================
-            // ЛОГІКА ПЕРЕМИКАННЯ НАВІГАЦІЇ
-            // =========================================================
-            if (isLoggedIn) {
-                // Користувач залогінений: Показуємо "Мій Профіль" та "Вийти". 
-                // Приховуємо "Увійти" та "Зареєструватися".
-                if (navMyProfile) navMyProfile.style.display = 'block'; 
-                if (navLogoutBtn) navLogoutBtn.style.display = 'block';
-                if (navLogin) navLogin.style.display = 'none';
-                if (navSignup) navSignup.style.display = 'none';
-            } else {
-                // Користувач не залогінений: Показуємо "Увійти" та "Зареєструватися".
-                // Приховуємо "Мій Профіль" та "Вийти".
-                if (navMyProfile) navMyProfile.style.display = 'none'; 
-                if (navLogoutBtn) navLogoutBtn.style.display = 'none';
-                if (navLogin) navLogin.style.display = 'block';
-                if (navSignup) navSignup.style.display = 'block';
-                
-                // Якщо користувач на цій сторінці без сесії, перенаправляємо
-                alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
-                window.location.href = LOGIN_PATH;
-                return;
-            }
-
-            // =========================================================
-            // 1. Обробка виходу з системи
-            // =========================================================
-            if (navLogoutBtn) {
-                navLogoutBtn.addEventListener('click', e => {
-                    e.preventDefault();
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('userProfile');
-                    alert('Ви вийшли з системи.');
-                    window.location.href = LOGIN_PATH; 
-                });
-            }
-            
-            // Якщо ми тут, то профіль завантажується, ініціалізуємо його
-            let profile;
-            try {
-                // ПАРСИНГ З ДЕБАГОМ
-                profile = JSON.parse(profileDataRaw);
-                
-                // Перевірка, що це профіль інфлюенсера (продовжуємо логіку)
-                if (!profile || profile.type !== 'influencer') {
-                    console.error("Помилка: Невірний тип профілю або порожній об'єкт.", profile);
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('userProfile');
-                    alert('Це сторінка тільки для інфлюенсерів. Перенаправлення на вхід.');
-                    window.location.href = LOGIN_PATH;
-                    return;
-                }
-            } catch (err) {
-                // АВТОМАТИЧНЕ ОЧИЩЕННЯ ПОШКОДЖЕНОГО JSON
-                console.error("FATAL ERROR: Помилка парсингу даних профілю:", err);
-                localStorage.removeItem('userProfile');
-                localStorage.removeItem('userToken');
-                alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
-                window.location.href = LOGIN_PATH;
-                return;
-            }
-            
-            // 3. Функція для заповнення DOM (винесено за перевірки)
-            function populateProfile(data) {
-                // ... (Ваш код заповнення DOM)
-                document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
-                document.getElementById('profileName').textContent = data.name || 'N/A';
-                document.getElementById('profileEmail').textContent = data.mail || 'N/A';
-                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
-
-                const socialLink = document.getElementById('socialLink');
-                const socialURL = data.social || data.website;
-
-                if (socialURL && socialURL !== 'null') {
-                    socialLink.href = socialURL;
-                    socialLink.style.display = 'block';
-                    socialLink.textContent = 'Перейти до профілю';
-                } else {
-                    socialLink.style.display = 'none';
-                }
-
-                document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
-                document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
-                document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
-
-                document.getElementById('instaCount').textContent = data.instagram_followers || 'N/A';
-                document.getElementById('tiktokCount').textContent = data.tiktok_followers || 'N/A';
-                document.getElementById('youtubeCount').textContent = data.youtube_subscribers || 'N/A';
-
-                document.getElementById('ageDemographics').textContent = data.age_demographics || 'N/A';
-                document.getElementById('genderDemographics').textContent = data.gender_demographics || 'N/A';
-                document.getElementById('geoTop').textContent = data.top_geo || 'N/A';
-
-                document.getElementById('pricePost').textContent = data.price_post || '(Запит)';
-                document.getElementById('priceStories').textContent = data.price_stories || '(Запит)';
-                document.getElementById('priceReel').textContent = data.price_reel || '(Запит)';
-                document.getElementById('priceIntegration').textContent = data.price_integration || 'Custom';
-            }
-            
-            // Запуск заповнення
-            populateProfile(profile);
-        });
-    </script>
 </body>
 </html>
+
 
 
 
