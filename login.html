@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід - Fluenc</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-item">Головна</a>
+            <a href="#" class="nav-item">Інфлюенсери</a>
+            <a href="#" class="nav-item">Компанії</a>
+            <a href="./register.html" class="nav-item signup-btn">Реєстрація</a>
+        </nav>
+    </header>
+
+    <div class="register-container">
+        <div class="register-card">
+            <h2>Увійдіть у свій обліковий запис</h2>
+            <p>Введіть дані, які ви використовували при реєстрації.</p>
+
+            <div id="errorMessage" class="message-container" style="display: none; background-color: #ffe6e6; border-color: #f44336; color: #8a1712;">
+                <i class="fas fa-exclamation-triangle" style="color: #f44336;"></i>
+                <div id="errorText">Помилка: Неправильна пошта або пароль.</div>
+            </div>
+
+            <form class="registration-form" id="loginForm">
+                
+                <input type="email" name="mail" placeholder="Електронна пошта (mail)" required>
+                <input type="password" name="passwd" placeholder="Пароль (passwd)" required>
+                
+                <button type="submit" class="cta-button primary large" id="loginBtn">Увійти</button>
+                
+                <p style="margin-top: 20px; font-size: 14px;">
+                    <a href="#" style="color: var(--primary-color);">Забули пароль?</a>
+                </p>
+                <p style="margin-top: 10px;">
+                    Не маєте облікового запису? <a href="./register.html" style="color: var(--primary-color);">Зареєструватися</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Fluenc. Усі права захищені.</p>
+        <div class="footer-links">
+            <a href="#">Про нас</a>
+            <a href="#">FAQ</a>
+            <a href="#">Умови користування</a>
+        </div>
+    </footer>
+
+    <script>
+        // АДРЕСА АПІ для входу - припустимо, це /login/ або /auth/
+        // Якщо ваш API не має спеціального роуту для входу, ми використовуємо /profiles/login/
+        const API_URL = "http://185.12.143.193:8080/profiles/login/"; // ПРИПУСТИМО
+        
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        // Функція для відправки форми через Fetch API
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+            
+            errorMessage.style.display = 'none'; // Скидаємо попередні помилки
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Вхід...';
+
+            // 1. Збір даних
+            const formData = new FormData(loginForm);
+            const data = {};
+            
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1];
+            }
+
+            // 2. Відправка JSON на API
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Успішний вхід!
+                    
+                    // Тут ви маєте отримати токен та/або роль користувача
+                    // У цьому прикладі ми припускаємо, що API повертає role та profile_id
+                    const userRole = result.role || 'company'; // Припустимо, що за замовчуванням це компанія
+                    
+                    alert(`Вхід успішний! Ви увійшли як ${userRole}.`);
+
+                    // Тимчасове перенаправлення на заглушку
+                    if (userRole === 'company') {
+                        window.location.href = '/company-dashboard.html';
+                    } else if (userRole === 'influencer') {
+                        window.location.href = '/influencer-dashboard.html';
+                    } else {
+                        window.location.href = '/index.html';
+                    }
+
+                } else {
+                    // Помилка входу (наприклад, 401 Unauthorized)
+                    errorText.textContent = result.message || 'Неправильна пошта або пароль. Спробуйте ще раз.';
+                    errorMessage.style.display = 'flex';
+                }
+            } catch (error) {
+                errorText.textContent = 'Помилка мережі або сервера. Спробуйте пізніше. (Перевірте CORS/HTTPS!)';
+                errorMessage.style.display = 'flex';
+                console.error('Fetch Error:', error);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Увійти';
+            }
+        });
+    </script>
+</body>
+</html>
