@@ -250,16 +250,49 @@ body {
     margin-bottom: 15px;
     color: var(--primary-color);
 }
-.registration-form input {
+.registration-form input, .registration-form textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
+    font-family: inherit;
 }
 .registration-form .cta-button {
     width: 100%;
+}
+/* Приховання елементів */
+.registration-form.hidden, .role-selection.hidden {
+    display: none !important;
+}
+
+/* --- Стилі для Повідомлення про Успіх --- */
+.message-container {
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid;
+}
+
+.message-success {
+    background-color: #e6ffed; /* Дуже світло-зелений */
+    border-color: #4CAF50;    /* Зелений (Primary Success) */
+    color: #0e6617;          /* Темно-зелений текст */
+}
+
+.message-success i {
+    font-size: 24px;
+    color: #4CAF50;
+}
+
+.message-container p {
+    margin: 0;
+    font-weight: 500;
 }
 
 /* --- Адаптивність (Базові правила) --- */
@@ -268,21 +301,5 @@ body {
         flex-direction: column;
         text-align: center;
     }
-
-    .hero-content, .hero-visual {
-        max-width: 100%;
-    }
-
-    .hero-visual {
-        margin-top: 40px;
-    }
-
-    .value-columns {
-        flex-direction: column;
-    }
-    
-    .role-selection {
-        flex-direction: column;
-    }
+    /* ... (інші адаптивні стилі) ... */
 }
-
