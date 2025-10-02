@@ -57,7 +57,7 @@
 
     <script>
         // АДРЕСА АПІ для входу
-        const API_URL = "http://185.12.143.193:8080/profiles/login/"; // Припускаємо, що цей роут працює
+        const API_URL = "http://185.12.143.193:8080/profiles/login/"; 
 
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
@@ -100,11 +100,11 @@
                     // УСПІШНИЙ ВХІД (HTTP 200)
                     // =========================================================
                     
-                    // Витягуємо роль користувача з відповіді
+                    // Витягуємо роль користувача з відповіді. result.role є найпростішим
                     const profileData = result.profile_data || result;
-                    const userRole = profileData.type || profileData.role || 'company';
+                    const userRole = result.role || profileData.type || 'company';
                     
-                    // Зберігаємо дані в localStorage для подальшого використання на сторінці профілю
+                    // Зберігаємо дані в localStorage 
                     localStorage.setItem('userToken', result.token);
                     localStorage.setItem('userProfile', JSON.stringify(profileData));
 
@@ -112,10 +112,8 @@
                     if (userRole === 'influencer') {
                         window.location.href = '/influencer-profile.html'; 
                     } else if (userRole === 'company') {
-                        // Потрібно створити цей файл
                         window.location.href = '/company-dashboard.html'; 
                     } else {
-                        // Запасний варіант
                         window.location.href = '/index.html'; 
                     }
 
@@ -126,7 +124,7 @@
                     
                     let message = 'Неправильна пошта або пароль. Спробуйте ще раз.';
                     
-                    // Якщо API повертає конкретне повідомлення про помилку
+                    // Приймаємо повідомлення про помилку від API
                     if (result && result.detail) {
                         message = result.detail;
                     } else if (result && result.message) {
