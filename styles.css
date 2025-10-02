@@ -337,7 +337,7 @@ body {
     justify-content: center;
     text-align: center;
     padding-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 0px solid #eee;
 }
 
 .profile-top-content {
@@ -521,3 +521,4 @@ body {
         flex-direction: column;
     }
 }
+
