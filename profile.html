@@ -121,7 +121,7 @@
                 localStorage.removeItem('userToken');
                 localStorage.removeItem('userProfile');
                 alert('Ви вийшли з системи.');
-                window.location.href = '/flpl/index.html';
+                window.location.href = '/flpl/login.html';
             });
 
             // 2. Перевірка наявності даних
@@ -153,7 +153,7 @@
                 localStorage.removeItem('userProfile');
                 localStorage.removeItem('userToken');
                 alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
-                window.location.href = '/login.html';
+                window.location.href = '/flpl/login.html';
                 return;
             }
 
