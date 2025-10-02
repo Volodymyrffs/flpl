@@ -36,18 +36,26 @@
                 </div>
             </div>
 
-            <form class="registration-form" id="regForm" method="POST" action="/api/register/">
-                <input type="email" name="email" placeholder="Електронна пошта" required>
-                <input type="password" name="password" placeholder="Пароль" required>
+            <form class="registration-form" id="regForm" method="POST" 
+                  action="http://185.12.143.193:8080/profiles/">
+                
+                <input type="text" name="name" placeholder="Ваше ім'я або назва компанії" required>
+                <input type="email" name="mail" placeholder="Електронна пошта (mail)" required>
+                <input type="password" name="passwd" placeholder="Пароль (passwd)" required>
                 <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
                 
-                <input type="url" name="social_link" id="influencerLink" 
-                       placeholder="Посилання на основну соц. мережу (Instagram, TikTok, YouTube)" 
+                <input type="url" name="social" id="influencerLink" 
+                       placeholder="Посилання на основну соц. мережу (social)" 
                        required style="display: block;"> 
                        
-                <input type="url" name="company_website" id="companyWebsite" 
-                       placeholder="Сайт компанії (приклад: https://company.com)" 
+                <input type="url" name="website" id="companyWebsite" 
+                       placeholder="Сайт компанії (website)" 
                        required style="display: none;"> 
+
+                <textarea id="subjectField" name="subjfl" 
+                          placeholder="Короткий опис вашої діяльності (subjfl)" 
+                          rows="3" required style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;"></textarea>
+                
 
                 <input type="hidden" name="user_role" id="userRole" value="influencer">
 
@@ -75,6 +83,7 @@
         const userRoleInput = document.getElementById('userRole');
         const optInfluencer = document.getElementById('optInfluencer');
         const optCompany = document.getElementById('optCompany');
+        const subjectField = document.getElementById('subjectField');
 
         function updateRole(role) {
             userRoleInput.value = role;
@@ -84,23 +93,30 @@
                 optInfluencer.classList.add('active');
                 optCompany.classList.remove('active');
                 
-                // Відображення полів
+                // Відображення полів (соцмережа)
                 influencerLink.style.display = 'block';
-                influencerLink.required = true;
-                
+                influencerLink.required = true; 
                 companyWebsite.style.display = 'none';
-                companyWebsite.required = false;
+                companyWebsite.required = false; 
+                
+                // Опис (subjfl)
+                subjectField.name = 'subjfl';
+                subjectField.placeholder = 'Короткий опис вашої діяльності (subjfl)';
+
             } else if (role === 'company') {
                 // Візуальне оновлення
                 optCompany.classList.add('active');
                 optInfluencer.classList.remove('active');
                 
-                // Відображення полів
+                // Відображення полів (сайт)
                 companyWebsite.style.display = 'block';
                 companyWebsite.required = true;
-                
                 influencerLink.style.display = 'none';
                 influencerLink.required = false;
+                
+                // Опис (subjcompany)
+                subjectField.name = 'subjcompany';
+                subjectField.placeholder = 'Короткий опис вашої компанії (subjcompany)';
             }
         }
         
@@ -108,7 +124,7 @@
         optInfluencer.addEventListener('click', () => updateRole('influencer'));
         optCompany.addEventListener('click', () => updateRole('company'));
 
-        // Ініціалізація на основі параметра URL (для CTA з головної сторінки)
+        // Ініціалізація на основі параметра URL та початкового стану
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const initialRole = urlParams.get('role');
