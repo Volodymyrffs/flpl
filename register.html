@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація - Fluenc</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Додаткові стилі тільки для сторінки реєстрації */
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background-color: var(--secondary-color);
+            padding: 40px 20px;
+        }
+        .register-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .role-selection {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .role-option {
+            flex: 1;
+            padding: 30px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .role-option:hover, .role-option.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.15);
+        }
+        .role-option i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        .registration-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .registration-form .cta-button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="/" class="nav-item">Головна</a>
+            <a href="#" class="nav-item">Інфлюенсери</a>
+            <a href="#" class="nav-item">Компанії</a>
+        </nav>
+    </header>
+
+    <div class="register-container">
+        <div class="register-card">
+            <h2>Створіть свій обліковий запис</h2>
+            <p>Будь ласка, оберіть, хто ви:</p>
+
+            <div class="role-selection">
+                <div class="role-option active" data-role="influencer">
+                    <i class="fas fa-camera"></i>
+                    <h4>Я — Інфлюенсер</h4>
+                    <p>Створюйте контент, знаходьте бренди.</p>
+                </div>
+                <div class="role-option" data-role="company">
+                    <i class="fas fa-building"></i>
+                    <h4>Я — Компанія/Бренд</h4>
+                    <p>Шукайте блогерів, запускайте кампанії.</p>
+                </div>
+            </div>
+
+            <form class="registration-form" id="regForm">
+                <input type="email" name="email" placeholder="Електронна пошта" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
+                
+                <input type="hidden" name="user_role" id="userRole" value="influencer">
+
+                <button type="submit" class="cta-button primary large">Продовжити</button>
+                
+                <p style="margin-top: 20px;">
+                    Вже є обліковий запис? <a href="/login" style="color: var(--primary-color);">Увійти</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        </footer>
+
+    <script>
+        // Невеликий JavaScript для активації вибору ролі
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.role-option').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Оновлюємо приховане поле для відправки на сервер
+                document.getElementById('userRole').value = this.dataset.role;
+            });
+        });
+    </script>
+</body>
+</html>
