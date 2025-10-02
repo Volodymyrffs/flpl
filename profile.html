@@ -1,144 +1,207 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Профіль Інфлюенсера - Fluenc</title>
-<link rel="stylesheet" href="./styles.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профіль Інфлюенсера - Fluenc</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<header class="main-header">
-<div class="logo">Fluenc.</div>
-<nav class="main-nav">
-<a href="index.html" class="nav-item">Головна</a>
-<a href="company-discovery.html" class="nav-item">Пошук</a>
-<a href="#" class="nav-item">Кампанії</a>
-<a href="./influencer-profile.html" class="nav-item login-btn">Мій Профіль</a>
-<a href="#" class="nav-item signup-btn" id="logoutBtn">Вийти</a>
-</nav>
-</header>
 
-<div class="profile-page-container">
-<div class="influencer-profile-card">
-<div class="profile-top-section">
-<div class="profile-top-content">
-<img class="profile-photo" id="profilePhoto" src="https://via.placeholder.com/150x150?text=Photo" alt="Фото профілю">
-<div class="profile-main-info">
-<h1 id="profileName">Завантаження... <i class="fas fa-check-circle verified-small"></i></h1>
-<p id="profileNiche">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
-</div>
-</div>
-</div>
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-item">Головна</a>
+            <a href="company-discovery.html" class="nav-item">Пошук</a>
+            <a href="#" class="nav-item">Кампанії</a>
+            <a href="./influencer-profile.html" class="nav-item login-btn">Мій Профіль</a>
+            <a href="#" class="nav-item signup-btn" id="logoutBtn">Вийти</a>
+        </nav>
+    </header>
 
-<div class="profile-left-column">
-<div class="engagement-box">
-<h3>EMAIL</h3>
-<div class="engagement-rate" style="font-size: 1.2em;" id="profileEmail">Завантаження...</div>
-<a href="#" class="cta-button secondary" style="margin-top: 15px;" id="socialLink" target="_blank">Перейти до профілю</a>
-</div>
+    <div class="profile-page-container">
+        <div class="influencer-profile-card">
 
-<div class="section-box">
-<h3>STATISTICS (ЗАГЛУШКА)</h3>
-<div class="followers-list">
-<div class="follower-item">
-<i class="fab fa-instagram"></i>
-<div class="count" id="instaCount">N/A</div>
-<div class="label">Followers</div>
-</div>
-<div class="follower-item">
-<i class="fab fa-tiktok"></i>
-<div class="count" id="tiktokCount">N/A</div>
-<div class="label">Followers</div>
-</div>
-<div class="follower-item">
-<i class="fab fa-youtube"></i>
-<div class="count" id="youtubeCount">N/A</div>
-<div class="label">Subscribers</div>
-</div>
-</div>
-</div>
+            <div class="profile-top-section">
+                <div class="profile-top-content">
+                    <img class="profile-photo" id="profilePhoto" src="https://via.placeholder.com/150x150?text=Photo" alt="Фото профілю">
+                    <div class="profile-main-info">
+                        <h1 id="profileName">Завантаження... <i class="fas fa-check-circle verified-small"></i></h1>
+                        <p id="profileNiche">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
+                    </div>
+                </div>
+            </div>
 
-<div class="demographics-box section-box">
-<h3>AUDIENCE DEMOGRAPHICS (ЗАГЛУШКА)</h3>
-<div class="detail-item"><strong>Вік:</strong> <span id="ageDemographics">N/A</span></div>
-<div class="detail-item"><strong>Стать:</strong> <span id="genderDemographics">N/A</span></div>
-<div class="detail-item"><strong>ТОП Гео:</strong> <span id="geoTop">N/A</span></div>
-</div>
-</div>
+            <div class="profile-left-column">
 
-<div class="profile-right-column">
-<div class="section-box">
-<h3>ABOUT ME</h3>
-<p id="aboutMe">Завантаження опису...</p>
-</div>
+                <div class="engagement-box">
+                    <h3>EMAIL</h3>
+                    <div class="engagement-rate" style="font-size: 1.2em;" id="profileEmail">Завантаження...</div>
+                    <a href="#" class="cta-button secondary" style="margin-top: 15px;" id="socialLink" target="_blank">Перейти до профілю</a>
+                </div>
 
-<div class="section-box">
-<h3>PRICING & SERVICES (ЗАГЛУШКА)</h3>
-<div class="pricing-table">
-<div class="price-row"><span>Post (from $500)</span> <strong id="pricePost">N/A</strong></div>
-<div class="price-row"><span>Stories (x3)</span> <strong id="priceStories">N/A</strong></div>
-<div class="price-row"><span>Reel/Video</span> <strong id="priceReel">N/A</strong></div>
-<div class="price-row"><span>Full Integration</span> <strong id="priceIntegration">Custom</strong></div>
-</div>
-<div class="contact-button">
-<a href="mailto:" class="cta-button primary" id="contactButton">CONTACT FOR COLLABORATION</a>
-</div>
-</div>
-</div>
-</div>
-</div>
+                <div class="section-box">
+                    <h3>STATISTICS (ЗАГЛУШКА)</h3>
+                    <div class="followers-list">
+                        <div class="follower-item">
+                            <i class="fab fa-instagram"></i>
+                            <div class="count" id="instaCount">N/A</div>
+                            <div class="label">Followers</div>
+                        </div>
+                        <div class="follower-item">
+                            <i class="fab fa-tiktok"></i>
+                            <div class="count" id="tiktokCount">N/A</div>
+                            <div class="label">Followers</div>
+                        </div>
+                        <div class="follower-item">
+                            <i class="fab fa-youtube"></i>
+                            <div class="count" id="youtubeCount">N/A</div>
+                            <div class="label">Subscribers</div>
+                        </div>
+                    </div>
+                </div>
 
-<footer class="main-footer">
-<p>&copy; 2025 Fluenc. Усі права захищені.</p>
-<div class="footer-links">
-<a href="#">Про нас</a>
-<a href="#">FAQ</a>
-<a href="#">Умови користування</a>
-</div>
-</footer>
+                <div class="demographics-box section-box">
+                    <h3>AUDIENCE DEMOGRAPHICS (ЗАГЛУШКА)</h3>
+                    <div class="detail-item">
+                        <strong>Вік:</strong> <span id="ageDemographics">N/A</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Стать:</strong> <span id="genderDemographics">N/A</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>ТОП Гео:</strong> <span id="geoTop">N/A</span>
+                    </div>
+                </div>
 
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
-const logoutBtn=document.getElementById('logoutBtn');
-logoutBtn.addEventListener('click',e=>{
-e.preventDefault();
-localStorage.removeItem('userToken');
-localStorage.removeItem('userProfile');
-alert('Ви вийшли з системи.');
-window.location.href='./login.html';
-});
+            </div>
 
-const profileDataRaw=localStorage.getItem('userProfile');
-if(!profileDataRaw){alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');window.location.href='./login.html';return;}
-let profile;
-try{profile=JSON.parse(profileDataRaw);
-if(!profile||profile.type!=='influencer'){throw new Error('Невірний тип профілю');}
-}catch(err){console.error('Помилка парсингу userProfile:',err,profileDataRaw);localStorage.removeItem('userProfile');localStorage.removeItem('userToken');alert('Помилка даних профілю. Будь ласка, увійдіть знову.');window.location.href='./login.html';return;}
+            <div class="profile-right-column">
 
-function populateProfile(data){
-document.title=`Профіль Інфлюенсера - ${data.name||'N/A'}`;
-document.getElementById('profileName').textContent=data.name||'N/A';
-document.getElementById('profileEmail').textContent=data.mail||'N/A';
-document.getElementById('aboutMe').textContent=data.bio||'Детальний опис відсутній.';
-const socialLink=document.getElementById('socialLink');
-if(data.social){socialLink.href=data.social;socialLink.style.display='block';socialLink.textContent='Перейти до профілю';}else{socialLink.style.display='none';}
-document.getElementById('nicheValue').textContent=data.niche||data.category||'Lifestyle (Дефолт)';
-document.getElementById('profilePhoto').alt=data.name||'Фото профілю';
-document.getElementById('contactButton').href=`mailto:${data.mail||''}`;
-document.getElementById('instaCount').textContent=data.instagram_followers||'N/A';
-document.getElementById('tiktokCount').textContent=data.tiktok_followers||'N/A';
-document.getElementById('youtubeCount').textContent=data.youtube_subscribers||'N/A';
-document.getElementById('ageDemographics').textContent=data.age_demographics||'N/A';
-document.getElementById('genderDemographics').textContent=data.gender_demographics||'N/A';
-document.getElementById('geoTop').textContent=data.top_geo||'N/A';
-document.getElementById('pricePost').textContent=data.price_post||'(Запит)';
-document.getElementById('priceStories').textContent=data.price_stories||'(Запит)';
-document.getElementById('priceReel').textContent=data.price_reel||'(Запит)';
-document.getElementById('priceIntegration').textContent=data.price_integration||'Custom';
-}
-populateProfile(profile);
-});
-</script>
+                <div class="section-box">
+                    <h3>ABOUT ME</h3>
+                    <p id="aboutMe">Завантаження опису...</p>
+                </div>
+
+                <div class="section-box">
+                    <h3>PRICING & SERVICES (ЗАГЛУШКА)</h3>
+                    <div class="pricing-table">
+                        <div class="price-row"><span>Post (from $500)</span> <strong id="pricePost">(Запит)</strong></div>
+                        <div class="price-row"><span>Stories (x3)</span> <strong id="priceStories">(Запит)</strong></div>
+                        <div class="price-row"><span>Reel/Video</span> <strong id="priceReel">(Запит)</strong></div>
+                        <div class="price-row"><span>Full Integration</span> <strong id="priceIntegration">Custom</strong></div>
+                    </div>
+                    <div class="contact-button">
+                        <a href="mailto:" class="cta-button primary" id="contactButton">CONTACT FOR COLLABORATION</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Fluenc. Усі права захищені.</p>
+        <div class="footer-links">
+            <a href="#">Про нас</a>
+            <a href="#">FAQ</a>
+            <a href="#">Умови користування</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            const profileDataRaw = localStorage.getItem('userProfile');
+
+            // 1. Обробка виходу з системи
+            logoutBtn.addEventListener('click', e => {
+                e.preventDefault();
+                localStorage.removeItem('userToken');
+                localStorage.removeItem('userProfile');
+                alert('Ви вийшли з системи.');
+                window.location.href = '/login.html';
+            });
+
+            // 2. Перевірка наявності даних
+            if (!profileDataRaw) {
+                alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            let profile;
+            try {
+                // ПАРСИНГ З ДЕБАГОМ
+                console.log("DEBUG: Спроба парсингу userProfile. Сирий рядок:", profileDataRaw);
+                profile = JSON.parse(profileDataRaw);
+                
+                // Перевірка, що це профіль інфлюенсера
+                if (!profile || profile.type !== 'influencer') {
+                    console.error("Помилка: Невірний тип профілю або порожній об'єкт.", profile);
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('userProfile');
+                    alert('Це сторінка тільки для інфлюенсерів. Перенаправлення на вхід.');
+                    window.location.href = '/login.html';
+                    return;
+                }
+            } catch (err) {
+                // АВТОМАТИЧНЕ ОЧИЩЕННЯ ПОШКОДЖЕНОГО JSON
+                console.error("FATAL ERROR: Помилка парсингу даних профілю:", err);
+                console.error("НЕКОРЕКТНИЙ РЯДОК JSON (очищено):", profileDataRaw);
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('userToken');
+                alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // 3. Функція для заповнення DOM
+            function populateProfile(data) {
+                // Основна інформація
+                document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
+                document.getElementById('profileName').textContent = data.name || 'N/A';
+                document.getElementById('profileEmail').textContent = data.mail || 'N/A';
+                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
+
+                // Посилання на соціальну мережу
+                const socialLink = document.getElementById('socialLink');
+                const socialURL = data.social || data.website; 
+                
+                if (socialURL && socialURL !== 'null') {
+                    socialLink.href = socialURL;
+                    socialLink.style.display = 'block';
+                    socialLink.textContent = 'Перейти до профілю';
+                } else {
+                    socialLink.style.display = 'none'; 
+                }
+
+                // Заглушки та додаткові поля
+                document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
+                document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
+                document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
+
+                // STATS (нормалізовано для відображення N/A)
+                document.getElementById('instaCount').textContent = data.instagram_followers || 'N/A';
+                document.getElementById('tiktokCount').textContent = data.tiktok_followers || 'N/A';
+                document.getElementById('youtubeCount').textContent = data.youtube_subscribers || 'N/A';
+                
+                // DEMOGRAPHICS (нормалізовано для відображення N/A)
+                document.getElementById('ageDemographics').textContent = data.age_demographics || 'N/A';
+                document.getElementById('genderDemographics').textContent = data.gender_demographics || 'N/A';
+                document.getElementById('geoTop').textContent = data.top_geo || 'N/A';
+
+                // PRICING (нормалізовано для відображення N/A)
+                document.getElementById('pricePost').textContent = data.price_post || '(Запит)';
+                document.getElementById('priceStories').textContent = data.price_stories || '(Запит)';
+                document.getElementById('priceReel').textContent = data.price_reel || '(Запит)';
+                document.getElementById('priceIntegration').textContent = data.price_integration || 'Custom';
+            }
+            
+            // Запуск заповнення
+            populateProfile(profile);
+        });
+    </script>
 </body>
 </html>
