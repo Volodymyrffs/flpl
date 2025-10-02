@@ -23,7 +23,15 @@
             <h2>Створіть свій обліковий запис</h2>
             <p>Будь ласка, оберіть, хто ви:</p>
 
-            <div class="role-selection">
+            <div id="successMessage" class="message-container message-success" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <p><strong>Ви успішно зареєструвались!</strong></p>
+                    <p style="font-size: 14px;">На вашу пошту надіслано лист з активацією акаунту.</p>
+                </div>
+            </div>
+
+            <div class="role-selection" id="roleSelection">
                 <div class="role-option active" data-role="influencer" id="optInfluencer">
                     <i class="fas fa-camera"></i>
                     <h4>Я — Інфлюенсер</h4>
@@ -51,9 +59,9 @@
                        placeholder="Сайт компанії (website)" 
                        required style="display: none;"> 
 
-                <input id="subjectField" name="subjfl" 
+                <textarea id="subjectField" name="subjfl" 
                           placeholder="Короткий опис вашої діяльності (subjfl)" 
-                           required></input>
+                          rows="3" required></textarea>
                 
                 <input type="hidden" name="type" id="userRole" value="influencer"> 
 
@@ -76,6 +84,8 @@
     </footer>
 
     <script>
+        // УВАГА: Якщо ваш API не підтримує HTTPS, ви зіткнетеся з помилкою Mixed Content (як обговорювалося).
+        // Для коректної роботи зі сторінки HTTPS використовуйте 'https://...' або тестуйте локально.
         const API_URL = "http://185.12.143.193:8080/profiles/";
 
         // Елементи форми
@@ -87,6 +97,8 @@
         const subjectField = document.getElementById('subjectField');
         const regForm = document.getElementById('regForm');
         const submitBtn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('successMessage');
+        const roleSelection = document.getElementById('roleSelection');
 
         // Функція для динамічного оновлення ролі та полів
         function updateRole(role) {
@@ -123,7 +135,7 @@
 
         // *** Обробка відправки форми через Fetch API ***
         regForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Зупиняємо стандартну відправку форми
+            event.preventDefault(); 
             
             // 1. Валідація паролів
             const password = regForm.elements['passwd'].value;
@@ -145,10 +157,8 @@
                 data[pair[0]] = pair[1];
             }
             
-            // Видаляємо непотрібне поле підтвердження
             delete data['confirm_password'];
 
-            // Видаляємо поле, яке не використовується для поточної ролі
             if (data.type === 'influencer' && data.website) {
                 delete data.website; 
             } else if (data.type === 'company' && data.social) {
@@ -168,10 +178,18 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert(`Успішна реєстрація! Ласкаво просимо, ${data.name}.`);
-                    // Перенаправлення на сторінку входу або дашборд
-                    window.location.href = '/login.html'; 
+                    // Успішна реєстрація: приховуємо форму, показуємо повідомлення
+                    regForm.classList.add('hidden');
+                    roleSelection.classList.add('hidden'); 
+                    successMsg.style.display = 'flex';
+                    
+                    // Можна додати автоматичне перенаправлення
+                    // setTimeout(() => {
+                    //     window.location.href = '/login.html'; 
+                    // }, 5000);
+
                 } else {
+                    // Обробка помилок
                     let errorMessage = `Помилка: ${response.status}. `;
                     if (result.message) {
                         errorMessage += JSON.stringify(result.message);
@@ -179,7 +197,7 @@
                     alert(errorMessage);
                 }
             } catch (error) {
-                alert('Помилка мережі або сервера. Спробуйте пізніше.');
+                alert('Помилка мережі або сервера. Спробуйте пізніше. (Перевірте CORS та HTTPS!)');
                 console.error('Fetch Error:', error);
             } finally {
                 submitBtn.disabled = false;
@@ -188,7 +206,7 @@
         });
 
 
-        // Ініціалізація на основі параметра URL (для CTA з головної сторінки)
+        // Ініціалізація на основі параметра URL
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const initialRole = urlParams.get('role');
