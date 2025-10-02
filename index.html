@@ -17,15 +17,15 @@
             <a href="./login.html" class="nav-item login-btn">Увійти</a>
             <a href="./register.html" class="nav-item signup-btn">Реєстрація</a>
         </nav> -->
-        <nav class="main-nav">
+        <nav class="main-nav">
             <a href="index.html" class="nav-item">Головна</a>
             <a href="company-discovery.html" class="nav-item">Пошук</a>
             <a href="#" class="nav-item">Кампанії</a>
-             <a href="/flpl/influencer-profile.html" class="nav-item login-btn" id="navMyProfile">Мій Профіль</a>
+            <a href="/flpl/influencer-profile.html" class="nav-item login-btn" id="navMyProfile">Мій Профіль</a>
             <a href="#" class="nav-item signup-btn" id="navLogoutBtn">Вийти</a>
             <a href="/flpl/login.html" class="nav-item login-btn" id="navLogin" style="display: none;">Увійти</a>
             <a href="/flpl/signup.html" class="nav-item signup-btn" id="navSignup" style="display: none;">Зареєструватися</a>
-        </nav>
+        </nav>
     </header>
 
     <section class="hero-section">
@@ -82,35 +82,35 @@
     </footer>
 <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const logoutBtn = document.getElementById('navLogoutBtn'); // Оновлений ID
             const profileDataRaw = localStorage.getItem('userProfile');
-            const isLoggedIn = !!profileDataRaw; // Перевіряємо, чи є дані профілю
+            const isLoggedIn = !!profileDataRaw;
+            const LOGIN_PATH = '/flpl/login.html'; 
 
-            // Отримання всіх навігаційних елементів, які треба перемикати
+            // Отримання елементів навігації
             const navMyProfile = document.getElementById('navMyProfile');
             const navLogoutBtn = document.getElementById('navLogoutBtn');
             const navLogin = document.getElementById('navLogin');
             const navSignup = document.getElementById('navSignup');
             
-            const LOGIN_PATH = '/flpl/login.html'; 
-
             // =========================================================
-            // L ОГІКА ПЕРЕМИКАННЯ НАВІГАЦІЇ
+            // ЛОГІКА ПЕРЕМИКАННЯ НАВІГАЦІЇ
             // =========================================================
             if (isLoggedIn) {
-                // Користувач залогінений: Показуємо "Мій Профіль" та "Вийти"
-                navMyProfile.style.display = 'block'; 
-                navLogoutBtn.style.display = 'block';
-                navLogin.style.display = 'none';
-                navSignup.style.display = 'none';
+                // Користувач залогінений: Показуємо "Мій Профіль" та "Вийти". 
+                // Приховуємо "Увійти" та "Зареєструватися".
+                if (navMyProfile) navMyProfile.style.display = 'block'; 
+                if (navLogoutBtn) navLogoutBtn.style.display = 'block';
+                if (navLogin) navLogin.style.display = 'none';
+                if (navSignup) navSignup.style.display = 'none';
             } else {
-                // Користувач не залогінений: Показуємо "Увійти" та "Зареєструватися"
-                navMyProfile.style.display = 'none'; 
-                navLogoutBtn.style.display = 'none';
-                navLogin.style.display = 'block';
-                navSignup.style.display = 'block';
+                // Користувач не залогінений: Показуємо "Увійти" та "Зареєструватися".
+                // Приховуємо "Мій Профіль" та "Вийти".
+                if (navMyProfile) navMyProfile.style.display = 'none'; 
+                if (navLogoutBtn) navLogoutBtn.style.display = 'none';
+                if (navLogin) navLogin.style.display = 'block';
+                if (navSignup) navSignup.style.display = 'block';
                 
-                // Якщо користувач на цій сторінці (influencer-profile.html) без сесії, перенаправляємо
+                // Якщо користувач на цій сторінці без сесії, перенаправляємо
                 alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
                 window.location.href = LOGIN_PATH;
                 return;
@@ -119,13 +119,15 @@
             // =========================================================
             // 1. Обробка виходу з системи
             // =========================================================
-            logoutBtn.addEventListener('click', e => {
-                e.preventDefault();
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('userProfile');
-                alert('Ви вийшли з системи.');
-                window.location.href = LOGIN_PATH; 
-            });
+            if (navLogoutBtn) {
+                navLogoutBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('userProfile');
+                    alert('Ви вийшли з системи.');
+                    window.location.href = LOGIN_PATH; 
+                });
+            }
             
             // Якщо ми тут, то профіль завантажується, ініціалізуємо його
             let profile;
@@ -154,7 +156,7 @@
             
             // 3. Функція для заповнення DOM (винесено за перевірки)
             function populateProfile(data) {
-                // ... (Ваш код заповнення DOM)
+                // ... (Ваш код заповнення DOM)
                 document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
                 document.getElementById('profileName').textContent = data.name || 'N/A';
                 document.getElementById('profileEmail').textContent = data.mail || 'N/A';
@@ -195,6 +197,7 @@
     </script>
 </body>
 </html>
+
 
 
 
