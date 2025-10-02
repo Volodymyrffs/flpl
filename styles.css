@@ -21,7 +21,9 @@ body {
     background-color: white;
 }
 
-/* --- 1. Навігація --- */
+/* --- Загальні компоненти --- */
+
+/* Навігація */
 .main-header {
     display: flex;
     justify-content: space-between;
@@ -60,14 +62,41 @@ body {
     margin-left: 30px;
 }
 
-/* --- 2. Секція HERO --- */
+/* Кнопки CTA */
+.cta-button {
+    text-decoration: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+    border: none; /* Для використання як button */
+    cursor: pointer;
+}
+
+.cta-button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.cta-button.secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+}
+
+/* --- Стилі Головної Сторінки (index.html) --- */
 .hero-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 80px 5%;
     min-height: 60vh;
-    background-color: var(--secondary-color); /* Світлий фон для контрасту */
+    background-color: var(--secondary-color);
 }
 
 .hero-content {
@@ -91,33 +120,8 @@ body {
     gap: 15px;
 }
 
-.cta-button {
-    text-decoration: none;
-    padding: 14px 30px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background-color 0.3s, transform 0.2s;
-    text-align: center;
-}
-
-.cta-button.primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.cta-button.secondary {
-    background-color: white;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-}
-
-.cta-button:hover {
-    transform: translateY(-2px);
-}
-
 .hero-visual {
     max-width: 40%;
-    /* Замініть на реальне зображення */
 }
 .hero-visual img {
     width: 100%;
@@ -126,7 +130,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* --- 3. Секція Цінності --- */
+/* Секція Цінності */
 .value-section {
     padding: 80px 5%;
     text-align: center;
@@ -167,10 +171,10 @@ body {
 
 .value-card li i {
     margin-right: 10px;
-    color: var(--primary-color); /* Колір іконок */
+    color: var(--primary-color);
 }
 
-/* --- 4. Фінальний CTA --- */
+/* Фінальний CTA */
 .final-cta {
     text-align: center;
     padding: 60px 5%;
@@ -188,8 +192,7 @@ body {
     font-size: 18px;
 }
 
-
-/* --- 5. Футер --- */
+/* Футер */
 .main-footer {
     display: flex;
     justify-content: space-between;
@@ -206,7 +209,60 @@ body {
     margin-left: 20px;
 }
 
-/* Адаптивність (Базові правила) */
+/* --- Спеціальні Стилі для Реєстрації (register.html) --- */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: var(--secondary-color);
+    padding: 40px 20px;
+}
+.register-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+.role-selection {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.role-option {
+    flex: 1;
+    padding: 30px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.role-option:hover, .role-option.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.15);
+}
+.role-option i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+.registration-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.registration-form .cta-button {
+    width: 100%;
+}
+
+/* --- Адаптивність (Базові правила) --- */
 @media (max-width: 900px) {
     .hero-section {
         flex-direction: column;
@@ -224,4 +280,9 @@ body {
     .value-columns {
         flex-direction: column;
     }
+    
+    .role-selection {
+        flex-direction: column;
+    }
 }
+
