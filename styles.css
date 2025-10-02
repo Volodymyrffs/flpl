@@ -20,10 +20,11 @@ body {
     font-family: var(--font-family);
     color: var(--text-dark);
     line-height: 1.6;
+    /* !!! BODY ТЕПЕР МІСТИТЬ ТІЛЬКИ БАЗОВИЙ ФОН !!! */
     background-color: var(--secondary-bg-color); 
     min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Дозволяє контенту слідувати один за одним */
+    flex-direction: column; 
 }
 
 /* --- Загальні компоненти --- */
@@ -39,7 +40,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    height: var(--header-height); /* Фіксована висота */
+    height: var(--header-height);
 }
 
 .logo {
@@ -78,7 +79,7 @@ body {
     text-align: center;
     border: none;
     cursor: pointer;
-    display: inline-block; /* Для кращого контролю розмірів */
+    display: inline-block;
 }
 
 .cta-button.primary {
@@ -201,16 +202,14 @@ body {
 
 /* Футер */
 .main-footer {
-    /* Видалено display: flex; оскільки його має керувати body */
     justify-content: space-between;
     align-items: center;
     padding: 20px 5%;
     font-size: 14px;
     color: var(--text-light);
     border-top: 1px solid #ecf0f1;
-    /* Додано display flex для внутрішнього вирівнювання */
     display: flex; 
-    margin-top: auto; /* Притискає футер до низу сторінки */
+    margin-top: auto; 
 }
 
 .footer-links a {
@@ -224,7 +223,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - var(--header-height)); /* Врахування хедера */
+    min-height: calc(100vh - var(--header-height));
     background-color: var(--secondary-bg-color);
     padding: 40px 20px;
 }
@@ -290,9 +289,9 @@ body {
 }
 
 .message-success {
-    background-color: #e6ffed; /* Дуже світло-зелений */
-    border-color: #4CAF50;    /* Зелений (Primary Success) */
-    color: #0e6617;           /* Темно-зелений текст */
+    background-color: #e6ffed;
+    border-color: #4CAF50;
+    color: #0e6617;
 }
 
 .message-success i {
@@ -305,24 +304,25 @@ body {
     font-weight: 500;
 }
 
-/* --- Спеціальні Стилі для Профілю Інфлюенсера (з виправленням центрування) --- */
+/* --- Спеціальні Стилі для Профілю Інфлюенсера (з виправленням сітки) --- */
 
 .profile-page-container {
     /* !!! Flexbox для центрування картки !!! */
     display: flex;
     justify-content: center; 
-    align-items: center; /* Центруємо по вертикалі */
+    align-items: center; 
     
     padding: 60px 5%; 
     flex-grow: 1; 
-    min-height: calc(100vh - var(--header-height) - 45px); /* min-height з урахуванням хедера і футера */
+    /* Висота контейнера має враховувати, що він знаходиться між хедером і футером */
+    min-height: calc(100vh - var(--header-height) - 45px); 
     
     /* Створення сітчастого ефекту */
     background-image: 
         linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
     background-size: 30px 30px; 
-    background-color: var(--secondary-bg-color); 
+    background-color: var(--secondary-bg-color); /* Основний фон під сіткою */
 }
 
 .influencer-profile-card {
@@ -331,7 +331,6 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
     width: 100%;
-    /* Структура Grid */
     display: grid; 
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
@@ -354,6 +353,7 @@ body {
     align-items: center;
 }
 
+/* !!! ВИПРАВЛЕННЯ: Картка фотографії має бути добре обрізана, щоб не закривати сітку !!! */
 .profile-photo {
     width: 150px;
     height: 150px;
@@ -403,7 +403,7 @@ body {
 .engagement-rate {
     font-size: 48px;
     font-weight: 700;
-    color: #4CAF50; /* Зелений для високого ER */
+    color: #4CAF50; 
 }
 
 .followers-list {
@@ -490,7 +490,7 @@ body {
         padding: 15px 20px;
     }
     .main-nav {
-        display: none; /* Спрощене меню для мобільних пристроїв */
+        display: none; 
     }
     .influencer-profile-card {
         grid-template-columns: 1fr;
@@ -514,7 +514,7 @@ body {
     }
     .profile-page-container {
         padding: 30px 20px;
-        align-items: flex-start; /* Вирівнювання на мобільних пристроях зверху */
+        align-items: flex-start;
     }
     .hero-section {
         flex-direction: column;
