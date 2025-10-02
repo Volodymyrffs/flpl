@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профіль Користувача - Fluenc</title>
+    <title>Профіль Інфлюенсера - Anna Kovalenko</title>
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -13,48 +13,107 @@
         <div class="logo">Fluenc.</div>
         <nav class="main-nav">
             <a href="index.html" class="nav-item">Головна</a>
-            <a href="#" class="nav-item">Дашборд</a>
             <a href="#" class="nav-item">Пошук</a>
-            <a href="./login.html" class="nav-item login-btn">Вийти</a> 
+            <a href="#" class="nav-item">Кампанії</a>
+            <a href="./profile.html" class="nav-item login-btn">Мій Профіль</a> 
         </nav>
     </header>
 
-    <div class="dashboard-container">
-        <div class="profile-card">
+    <div class="profile-page-container">
+        <div class="influencer-profile-card">
 
-            <div class="profile-header">
-                <div class="profile-avatar">
-                    <i class="fas fa-building"></i> </div>
-                <div class="profile-info">
-                    <h1>Назва Компанії / Ім'я Інфлюенсера</h1>
-                    <span class="role-tag company">Компанія</span>
+            <div class="profile-top-section">
+                <div class="profile-top-content">
+                    <img class="profile-photo" src="https://via.placeholder.com/150x150?text=Anna" alt="Anna Kovalenko">
+                    <div class="profile-main-info">
+                        <h1>Anna Kovalenko <i class="fas fa-check-circle"></i></h1>
+                        <p>TRAVEL & LIFESTYLE</p>
                     </div>
-                <div class="edit-button">
-                    <a href="#" class="cta-button secondary">
-                        <i class="fas fa-edit"></i> Редагувати
-                    </a>
                 </div>
             </div>
 
-            <div class="profile-description">
-                "Короткий опис, який був введений під час реєстрації (subjcompany або subjfl). Це наш основний меседж."
-            </div>
-            
-            <div class="profile-details">
-                <h3>Основна Інформація</h3>
-                <div class="detail-item">
-                    <strong><i class="fas fa-envelope"></i> Пошта:</strong> 
-                    example@company.com
+            <div class="profile-left-column">
+
+                <div class="engagement-box">
+                    <h3>ENGAGEMENT RATE</h3>
+                    <div class="engagement-rate">7.8%</div>
+                    <a href="#" class="cta-button secondary" style="margin-top: 15px;">View Profile</a>
                 </div>
-                
-                <div class="detail-item">
-                    <strong><i class="fas fa-globe"></i> Сайт:</strong> 
-                    <a href="https://companysite.com" target="_blank">https://companysite.com</a>
+
+                <div class="section-box">
+                    <div class="followers-list">
+                        <div class="follower-item">
+                            <i class="fab fa-instagram"></i>
+                            <div class="count">1.2M</div>
+                            <div class="label">Followers</div>
+                        </div>
+                        <div class="follower-item">
+                            <i class="fab fa-tiktok"></i>
+                            <div class="count">850K</div>
+                            <div class="label">Followers</div>
+                        </div>
+                        <div class="follower-item">
+                            <i class="fab fa-youtube"></i>
+                            <div class="count">300K</div>
+                            <div class="label">Subscribers</div>
+                        </div>
                     </div>
-                
-                <div class="detail-item">
-                    <strong><i class="fas fa-calendar-alt"></i> Дата реєстрації:</strong> 
-                    12.08.2025
+                </div>
+
+                <div class="demographics-box section-box">
+                    <h3>AUDIENCE DEMOGRAPHICS</h3>
+                    <div class="detail-item">
+                        <strong>Вік:</strong>
+                        <span>25-34 (40%)</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Стать:</strong>
+                        <span style="color: blue;">Women 65%</span> / <span style="color: red;">Men 35%</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>ТОП Гео:</strong>
+                        <span>Ukraine (45%)</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong></strong>
+                        <span>Poland (25%)</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="profile-right-column">
+
+                <div class="section-box">
+                    <h3>ABOUT ME</h3>
+                    <p>
+                        Привіт! Я Анна Коваленко, і я обожнюю подорожі та все, що пов'язано зі стилем життя. Співпрацюю з брендами, які поділяють мої цінності: автентичність, якість та пригоди. 
+                    </p>
+                </div>
+
+                <div class="section-box">
+                    <h3>PRICING & SERVICES</h3>
+                    <div class="pricing-table">
+                        <div class="price-row">
+                            <span>Post (from $500)</span>
+                            <strong>(from $300)</strong>
+                        </div>
+                        <div class="price-row">
+                            <span>Stories (x3)</span>
+                            <strong>(from $300)</strong>
+                        </div>
+                        <div class="price-row">
+                            <span>Reel/Video</span>
+                            <strong>(from $600)</strong>
+                        </div>
+                        <div class="price-row">
+                            <span>Full Integration</span>
+                            <strong>Custom</strong>
+                        </div>
+                    </div>
+                    <div class="contact-button">
+                        <a href="#" class="cta-button primary">CONTACT FOR COLLABORATION</a>
+                    </div>
                 </div>
             </div>
 
