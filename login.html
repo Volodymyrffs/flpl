@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вхід - Fluenc</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
             <div id="errorMessage" class="message-container" style="display: none; background-color: #ffe6e6; border-color: #f44336; color: #8a1712;">
                 <i class="fas fa-exclamation-triangle" style="color: #f44336;"></i>
-                <div id="errorText">Помилка: Неправильна пошта або пароль.</div>
+                <div id="errorText"></div>
             </div>
 
             <form class="registration-form" id="loginForm">
@@ -54,60 +54,101 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
-<script>
-    // ... (весь попередній код: API_URL, константи) ...
-    
-    // АДРЕСА АПІ для входу - припустимо, це /login/ або /auth/
-    const API_URL = "http://185.12.143.193:8080/profiles/login/"; 
 
-    // ... (константи для елементів) ...
+    <script>
+        // АДРЕСА АПІ для входу
+        const API_URL = "http://185.12.143.193:8080/profiles/login/"; // Припускаємо, що цей роут працює
 
-    // Функція для відправки форми через Fetch API
-    loginForm.addEventListener('submit', async function(event) {
-        // ... (весь код до fetch) ...
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
 
-        try {
-            const response = await fetch(API_URL, {
-                // ... (параметри запиту) ...
-            });
+        // Функція для відправки форми через Fetch API
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+            
+            // Приховуємо попередні помилки
+            errorMessage.style.display = 'none'; 
 
-            const result = await response.json();
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Вхід...';
 
-            if (response.ok) {
-                // =========================================================
-                // УСПІШНИЙ ВХІД: ЗБЕРІГАННЯ ДАНИХ ТА ПЕРЕНАПРАВЛЕННЯ
-                // =========================================================
-                
-                // Припускаємо, що API повертає об'єкт з токеном, роллю та даними профілю
-                const userRole = result.role || (result.profile_data && result.profile_data.type) || 'company';
-                
-                // Зберігаємо токен та повні дані профілю для подальшого використання
-                localStorage.setItem('userToken', result.token);
-                localStorage.setItem('userProfile', JSON.stringify(result.profile_data || result)); 
+            // 1. Збір даних
+            const formData = new FormData(loginForm);
+            const data = {};
+            
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1];
+            }
 
-                alert(`Вхід успішний! Вітаємо, ${result.profile_data.name || 'Користувач'}!`);
+            // 2. Відправка JSON на API
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
 
-                // Перенаправлення залежно від ролі
-                if (userRole === 'company') {
-                    // Перенаправляємо на дашборд компанії
-                    window.location.href = '/company-dashboard.html'; 
-                } else if (userRole === 'influencer') {
-                    // Перенаправляємо на детальний профіль інфлюенсера
-                    window.location.href = './profile.html'; 
+                // Спроба отримати тіло відповіді, навіть при помилці
+                const result = await response.json(); 
+
+                if (response.ok) {
+                    // =========================================================
+                    // УСПІШНИЙ ВХІД (HTTP 200)
+                    // =========================================================
+                    
+                    // Витягуємо роль користувача з відповіді
+                    const profileData = result.profile_data || result;
+                    const userRole = profileData.type || profileData.role || 'company';
+                    
+                    // Зберігаємо дані в localStorage для подальшого використання на сторінці профілю
+                    localStorage.setItem('userToken', result.token);
+                    localStorage.setItem('userProfile', JSON.stringify(profileData));
+
+                    // Перенаправлення залежно від ролі
+                    if (userRole === 'influencer') {
+                        window.location.href = '/influencer-profile.html'; 
+                    } else if (userRole === 'company') {
+                        // Потрібно створити цей файл
+                        window.location.href = '/company-dashboard.html'; 
+                    } else {
+                        // Запасний варіант
+                        window.location.href = '/index.html'; 
+                    }
+
                 } else {
-                    window.location.href = '/index.html';
+                    // =========================================================
+                    // ПОМИЛКА ВХОДУ (HTTP 4xx)
+                    // =========================================================
+                    
+                    let message = 'Неправильна пошта або пароль. Спробуйте ще раз.';
+                    
+                    // Якщо API повертає конкретне повідомлення про помилку
+                    if (result && result.detail) {
+                        message = result.detail;
+                    } else if (result && result.message) {
+                        message = result.message;
+                    }
+
+                    errorText.textContent = message;
+                    errorMessage.style.display = 'flex';
                 }
 
-            } else {
-                // ... (Обробка помилок) ...
+            } catch (error) {
+                // =========================================================
+                // ПОМИЛКА МЕРЕЖІ/СЕРВЕРА
+                // =========================================================
+                errorText.textContent = 'Помилка з’єднання. Перевірте API-сервер або CORS/HTTPS налаштування.';
+                errorMessage.style.display = 'flex';
+                console.error('Fetch Error:', error);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Увійти';
             }
-        } catch (error) {
-            // ... (Обробка мережевих помилок) ...
-        } finally {
-            loginBtn.disabled = false;
-            loginBtn.textContent = 'Увійти';
-        }
-    });
-</script>
+        });
+    </script>
 </body>
 </html>
