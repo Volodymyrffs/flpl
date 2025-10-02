@@ -2,11 +2,12 @@
 :root {
     --primary-color: #007bff; /* Яскравий синій для CTA */
     --secondary-bg-color: #f4f6f9; /* Світло-сірий фон сторінок */
-    --grid-line-color: #e8e8e8; /* Колір сітки на фоні */
+    --grid-line-color: #e8e8e8; /* Колір сітки на фоні профілю */
     --text-dark: #2c3e50; /* Темний текст */
     --text-light: #7f8c8d; /* Світлий текст */
     --accent-color: #ff9f43; /* Акцентний колір, наприклад, для кнопок блогерів */
     --font-family: 'Inter', sans-serif; /* Рекомендований шрифт */
+    --header-height: 80px; /* Приблизна висота хедера */
 }
 
 * {
@@ -15,17 +16,14 @@
     box-sizing: border-box;
 }
 
-/*
- * !!! ГОЛОВНЕ ВИПРАВЛЕННЯ: Створення сітчастого фону на рівні BODY/CONTAINER !!!
- */
 body {
     font-family: var(--font-family);
     color: var(--text-dark);
     line-height: 1.6;
-    background-color: var(--secondary-bg-color); /* Базовий світло-сірий колір */
+    background-color: var(--secondary-bg-color); 
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Дозволяє контенту слідувати один за одним */
 }
 
 /* --- Загальні компоненти --- */
@@ -41,6 +39,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    height: var(--header-height); /* Фіксована висота */
 }
 
 .logo {
@@ -79,6 +78,7 @@ body {
     text-align: center;
     border: none;
     cursor: pointer;
+    display: inline-block; /* Для кращого контролю розмірів */
 }
 
 .cta-button.primary {
@@ -97,32 +97,241 @@ body {
 }
 
 /* --- Стилі Головної Сторінки (index.html) --- */
-/* ... (незмінні стилі для index.html, register.html, футера) ... */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 5%;
+    min-height: 60vh;
+    background-color: var(--secondary-bg-color);
+}
 
-/* --- Спеціальні Стилі для Профілю Інфлюенсера --- */
+.hero-content {
+    max-width: 50%;
+}
 
-.profile-page-container {
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.cta-group {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-visual {
+    max-width: 40%;
+}
+.hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Секція Цінності */
+.value-section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+.value-section h2 {
+    margin-bottom: 50px;
+    font-size: 32px;
+}
+
+.value-columns {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.value-card {
+    flex: 1;
+    text-align: left;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.value-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.value-card ul {
+    list-style: none;
+}
+
+.value-card li {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.value-card li i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+/* Фінальний CTA */
+.final-cta {
+    text-align: center;
+    padding: 60px 5%;
+    background-color: #f7f9fb;
+    border-top: 1px solid #ecf0f1;
+}
+
+.final-cta h2 {
+    margin-bottom: 30px;
+    font-size: 36px;
+}
+
+.cta-button.large {
+    padding: 16px 40px;
+    font-size: 18px;
+}
+
+/* Футер */
+.main-footer {
+    /* Видалено display: flex; оскільки його має керувати body */
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    font-size: 14px;
+    color: var(--text-light);
+    border-top: 1px solid #ecf0f1;
+    /* Додано display flex для внутрішнього вирівнювання */
+    display: flex; 
+    margin-top: auto; /* Притискає футер до низу сторінки */
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* --- Спеціальні Стилі для Реєстрації (register.html) --- */
+.register-container {
     display: flex;
     justify-content: center;
-    /* Змінено padding на більший вертикальний відступ */
+    align-items: center;
+    min-height: calc(100vh - var(--header-height)); /* Врахування хедера */
+    background-color: var(--secondary-bg-color);
+    padding: 40px 20px;
+}
+.register-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+.role-selection {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.role-option {
+    flex: 1;
+    padding: 30px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.role-option:hover, .role-option.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.15);
+}
+.role-option i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+.registration-form input, .registration-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: inherit;
+}
+.registration-form .cta-button {
+    width: 100%;
+}
+/* Приховання елементів */
+.registration-form.hidden, .role-selection.hidden {
+    display: none !important;
+}
+
+/* --- Стилі для Повідомлення про Успіх --- */
+.message-container {
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid;
+}
+
+.message-success {
+    background-color: #e6ffed; /* Дуже світло-зелений */
+    border-color: #4CAF50;    /* Зелений (Primary Success) */
+    color: #0e6617;           /* Темно-зелений текст */
+}
+
+.message-success i {
+    font-size: 24px;
+    color: #4CAF50;
+}
+
+.message-container p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* --- Спеціальні Стилі для Профілю Інфлюенсера (з виправленням центрування) --- */
+
+.profile-page-container {
+    /* !!! Flexbox для центрування картки !!! */
+    display: flex;
+    justify-content: center; 
+    align-items: center; /* Центруємо по вертикалі */
+    
     padding: 60px 5%; 
     flex-grow: 1; 
+    min-height: calc(100vh - var(--header-height) - 45px); /* min-height з урахуванням хедера і футера */
     
-    /* Створення сітчастого ефекту за допомогою CSS-градієнтів */
+    /* Створення сітчастого ефекту */
     background-image: 
         linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
-    background-size: 30px 30px; /* Розмір клітинки сітки */
-    background-color: var(--secondary-bg-color); /* Основний фон */
+    background-size: 30px 30px; 
+    background-color: var(--secondary-bg-color); 
 }
 
 .influencer-profile-card {
-    background: white; /* Чисто білий фон картки */
+    background: white;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
     width: 100%;
-    /* Використання grid для розділення на колонки */
+    /* Структура Grid */
     display: grid; 
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
@@ -154,9 +363,170 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ... (інші стилі профілю залишаються без змін) ... */
+.profile-main-info h1 {
+    font-size: 32px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.profile-main-info h1 i {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.profile-main-info p {
+    color: var(--text-light);
+    font-size: 18px;
+}
+
+/* Секції ліворуч (Engagement Rate, Followers, Demographics) */
+.profile-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.engagement-box {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.engagement-box h3 {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.engagement-rate {
+    font-size: 48px;
+    font-weight: 700;
+    color: #4CAF50; /* Зелений для високого ER */
+}
+
+.followers-list {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.follower-item {
+    text-align: center;
+}
+
+.follower-item i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.follower-item .count {
+    font-size: 18px;
+    font-weight: 600;
+}
+.follower-item .label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.followers-list .fa-instagram { color: #E4405F; }
+.followers-list .fa-tiktok { color: #000000; }
+.followers-list .fa-youtube { color: #FF0000; }
+
+
+/* Секції праворуч (About Me, Pricing) */
+.profile-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.section-box {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.section-box h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.pricing-table .price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted #ddd;
+}
+
+.pricing-table .price-row:last-child {
+    border-bottom: none;
+}
+
+.contact-button {
+    margin-top: 20px;
+    width: 100%;
+}
+.contact-button .cta-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* Демографія */
+.demographics-box .detail-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
 
 /* --- Адаптивність (Базові правила) --- */
 @media (max-width: 900px) {
-    /* ... (існуючі адаптивні стилі) ... */
+    .main-header {
+        padding: 15px 20px;
+    }
+    .main-nav {
+        display: none; /* Спрощене меню для мобільних пристроїв */
+    }
+    .influencer-profile-card {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    .profile-top-section {
+        grid-column: 1 / 2;
+        flex-direction: column;
+        text-align: center;
+    }
+    .profile-top-content {
+        flex-direction: column;
+    }
+    .profile-photo {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .followers-list {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .profile-page-container {
+        padding: 30px 20px;
+        align-items: flex-start; /* Вирівнювання на мобільних пристроях зверху */
+    }
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-content, .hero-visual {
+        max-width: 100%;
+    }
+    .hero-content {
+        margin-bottom: 40px;
+    }
+    .value-columns {
+        flex-direction: column;
+    }
 }
