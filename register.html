@@ -36,10 +36,9 @@
                 </div>
             </div>
 
-            <form class="registration-form" id="regForm" method="POST" 
-                  action="http://185.12.143.193:8080/profiles/">
+            <form class="registration-form" id="regForm">
                 
-                <input type="text" name="name" placeholder="Ваше ім'я або назва компанії" required>
+                <input type="text" name="name" placeholder="Ваше ім'я або назва компанії (name)" required>
                 <input type="email" name="mail" placeholder="Електронна пошта (mail)" required>
                 <input type="password" name="passwd" placeholder="Пароль (passwd)" required>
                 <input type="password" name="confirm_password" placeholder="Повторіть пароль" required>
@@ -54,12 +53,11 @@
 
                 <textarea id="subjectField" name="subjfl" 
                           placeholder="Короткий опис вашої діяльності (subjfl)" 
-                          rows="3" required style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;"></textarea>
+                          rows="3" required></textarea>
                 
+                <input type="hidden" name="type" id="userRole" value="influencer"> 
 
-                <input type="hidden" name="user_role" id="userRole" value="influencer">
-
-                <button type="submit" class="cta-button primary large">Продовжити</button>
+                <button type="submit" class="cta-button primary large" id="submitBtn">Продовжити</button>
                 
                 <p style="margin-top: 20px;">
                     Вже є обліковий запис? <a href="/login" style="color: var(--primary-color);">Увійти</a>
@@ -78,53 +76,119 @@
     </footer>
 
     <script>
+        const API_URL = "http://185.12.143.193:8080/profiles/";
+
+        // Елементи форми
         const influencerLink = document.getElementById('influencerLink');
         const companyWebsite = document.getElementById('companyWebsite');
-        const userRoleInput = document.getElementById('userRole');
+        const userRoleInput = document.getElementById('userRole'); 
         const optInfluencer = document.getElementById('optInfluencer');
         const optCompany = document.getElementById('optCompany');
         const subjectField = document.getElementById('subjectField');
+        const regForm = document.getElementById('regForm');
+        const submitBtn = document.getElementById('submitBtn');
 
+        // Функція для динамічного оновлення ролі та полів
         function updateRole(role) {
             userRoleInput.value = role;
 
             if (role === 'influencer') {
-                // Візуальне оновлення
                 optInfluencer.classList.add('active');
                 optCompany.classList.remove('active');
                 
-                // Відображення полів (соцмережа)
                 influencerLink.style.display = 'block';
                 influencerLink.required = true; 
                 companyWebsite.style.display = 'none';
                 companyWebsite.required = false; 
                 
-                // Опис (subjfl)
                 subjectField.name = 'subjfl';
                 subjectField.placeholder = 'Короткий опис вашої діяльності (subjfl)';
-
             } else if (role === 'company') {
-                // Візуальне оновлення
                 optCompany.classList.add('active');
                 optInfluencer.classList.remove('active');
                 
-                // Відображення полів (сайт)
                 companyWebsite.style.display = 'block';
                 companyWebsite.required = true;
                 influencerLink.style.display = 'none';
                 influencerLink.required = false;
                 
-                // Опис (subjcompany)
                 subjectField.name = 'subjcompany';
                 subjectField.placeholder = 'Короткий опис вашої компанії (subjcompany)';
             }
         }
         
-        // Обробка кліків
+        // Обробка кліків для вибору ролі
         optInfluencer.addEventListener('click', () => updateRole('influencer'));
         optCompany.addEventListener('click', () => updateRole('company'));
 
-        // Ініціалізація на основі параметра URL та початкового стану
+        // *** Обробка відправки форми через Fetch API ***
+        regForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Зупиняємо стандартну відправку форми
+            
+            // 1. Валідація паролів
+            const password = regForm.elements['passwd'].value;
+            const confirmPassword = regForm.elements['confirm_password'].value;
+            
+            if (password !== confirmPassword) {
+                alert("Паролі не співпадають!");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Надсилання...';
+
+            // 2. Збір та очищення даних
+            const formData = new FormData(regForm);
+            const data = {};
+            
+            for (let pair of formData.entries()) {
+                data[pair[0]] = pair[1];
+            }
+            
+            // Видаляємо непотрібне поле підтвердження
+            delete data['confirm_password'];
+
+            // Видаляємо поле, яке не використовується для поточної ролі
+            if (data.type === 'influencer' && data.website) {
+                delete data.website; 
+            } else if (data.type === 'company' && data.social) {
+                delete data.social;
+            }
+
+            // 3. Відправка JSON на API
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(`Успішна реєстрація! Ласкаво просимо, ${data.name}.`);
+                    // Перенаправлення на сторінку входу або дашборд
+                    window.location.href = '/login.html'; 
+                } else {
+                    let errorMessage = `Помилка: ${response.status}. `;
+                    if (result.message) {
+                        errorMessage += JSON.stringify(result.message);
+                    }
+                    alert(errorMessage);
+                }
+            } catch (error) {
+                alert('Помилка мережі або сервера. Спробуйте пізніше.');
+                console.error('Fetch Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Продовжити';
+            }
+        });
+
+
+        // Ініціалізація на основі параметра URL (для CTA з головної сторінки)
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const initialRole = urlParams.get('role');
