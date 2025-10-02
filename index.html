@@ -4,8 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Influencer Hub | UNIX EDITION</title>
-    <link rel="stylesheet" href="style.css">
-    </head>
+
+    <style>
+        /* Стилі, що відповідають Філософії UNIX:
+         * - Максимальна ясність та контраст.
+         * - Моноширинний шрифт.
+         * - Рамки та мінімалізм.
+         * - Посилений зелений акцент для маркетингу.
+         */
+
+        :root {
+            --text-color: #1A1A1A; /* М'якший чорний */
+            --background-color: #FFFFFF;
+            --accent-color: #00A86B; /* Соковитий зелений акцент */
+            --border-color: #E0E0E0;
+            --secondary-color: #6C757D; /* Колір для другорядного тексту */
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 40px auto;
+            max-width: 800px; 
+            padding: 0 20px;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Забезпечуємо високий контраст для посилань */
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            transition: all 0.1s;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 20px 0;
+        }
+
+        /* 1. HEADER (Навігація) */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+
+        header .logo a {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        header nav a {
+            margin-left: 10px;
+        }
+
+        /* 2. MAIN ACTION (Головний CTA) */
+        .main-action {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+
+        .main-action h1 {
+            font-size: 2.2em;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+        
+        .main-action p {
+            color: var(--secondary-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border: 2px solid var(--accent-color);
+            background-color: transparent;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-top: 25px;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px 0px #008055; /* Естетика "технологічної" кнопки */
+            transition: all 0.1s;
+            font-size: 1.1em;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            text-decoration: none;
+            transform: translate(2px, 2px); /* Ефект натискання */
+            box-shadow: 2px 2px 0px 0px #008055;
+        }
+        
+        /* TRUST BAR: Соціальний Доказ (маркетинговий елемент) */
+        .trust-bar {
+            text-align: center;
+            padding: 15px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin: 30px 0;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+        .trust-bar strong {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* 3. DATA STREAM (Потік Даних) */
+        .data-stream h2 {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .listing-table {
+            white-space: pre;
+            background-color: #F8F8F8;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .data-stream p {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        /* 4. FOOTER (Довідкові Файли) */
+        footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: var(--secondary-color);
+            padding-top: 10px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
 <body>
 
     <header>
@@ -22,23 +172,28 @@
     <hr>
     
     <section class="main-action">
-        <h1>Знайди. Співпрацюй. Масштабуй.</h1>
-        <p>Прямий доступ до профілів. Ефективність як у командному рядку.</p>
-        <a href="/search?mode=brand" class="cta-button">> ПОЧАТИ ПОШУК БЛОГЕРА</a>
+        <h1>Ваш Прямий Канал до 100 000 000+ Аудиторії.</h1>
+        <p>Співпраця без посередників. Тільки дані. Тільки результат.</p>
+        <a href="/search?mode=brand" class="cta-button">СТАРТ: ЗНАЙТИ ІДЕАЛЬНОГО ІНФЛЮЕНСЕРА $\\$</a>
+    </section>
+    
+    <section class="trust-bar">
+        <span>&lt;status&gt;</span>
+        Працюємо з <strong>320+</strong> перевіреними брендами та <strong>2500+</strong> інфлюенсерами. **Надійно.**
     </section>
 
     <hr>
 
     <section class="data-stream">
-        <h2>:: АКТУАЛЬНІ ПРОПОЗИЦІЇ (5/1200)</h2>
+        <h2>:: АКТУАЛЬНІ ПРОПОЗИЦІЇ (ls -l | head -n 5)</h2>
         <pre class="listing-table">
-ID | НІКНЕЙМ     | КАТЕГОРІЯ | ОХВАТ (K) | ЦІНА (USD) | 
+ID  | НІКНЕЙМ     | КАТЕГОРІЯ | ОХВАТ (K) | ЦІНА (USD) | 
 ---------------------------------------------------------
-001| @tech_guru  | IT/Dev    | 150.2     | 1200       | 
-002| @eco_life   | Ecology   | 88.5      | 850        | 
-003| @gaming_pro | Gaming    | 245.0     | 1800       | 
-004| @food_ie    | Food      | 65.1      | 600        | 
-005| @fit_girl   | Fitness   | 112.9     | 950        | 
+001 | @tech_guru  | IT/Dev    | 150.2     | 1200       | 
+002 | @eco_life   | Ecology   | 88.5      | 850        | 
+003 | @gaming_pro | Gaming    | 245.0     | 1800       | 
+004 | @food_ie    | Food      | 65.1      | 600        | 
+005 | @fit_girl   | Fitness   | 112.9     | 950        | 
         </pre>
         <p>
             <a href="/listings">Всі пропозиції (ls -l) >></a>
@@ -52,6 +207,7 @@ ID | НІКНЕЙМ     | КАТЕГОРІЯ | ОХВАТ (K) | ЦІНА (USD) |
         <a href="/man/about">man about</a> | 
         <a href="/man/contact">man contact</a> | 
         <a href="/man/api">man api</a>
+        <p>Influencer Hub: Майбутнє, що працює.</p>
     </footer>
 
 </body>
