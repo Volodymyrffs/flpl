@@ -316,7 +316,7 @@ body {
 }
 
 .influencer-profile-card {
-    background: white;
+    background: #f5f9ff;;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
@@ -384,6 +384,7 @@ body {
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 8px;
+    background: white;
 }
 
 .engagement-box h3 {
@@ -437,6 +438,7 @@ body {
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 8px;
+    bacjground: white;
 }
 
 .section-box h3 {
@@ -521,6 +523,7 @@ body {
         flex-direction: column;
     }
 }
+
 
 
 
