@@ -124,98 +124,82 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
-
 <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const logoutBtn = document.getElementById('logoutBtn');
-            // Змінюємо на 'let', щоб працював дебаг
-            let profileDataRaw = localStorage.getItem('userProfile'); 
-            
-            // 1. Обробка виходу з системи
-            logoutBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('userProfile');
-                alert('Ви вийшли з системи.');
-                window.location.href = '/login.html';
-            });
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logoutBtn');
 
-            // 2. Перевірка наявності даних
-            if (!profileDataRaw) {
-                alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
-                window.location.href = '/login.html'; 
-                return;
-            }
+    // Вихід з системи
+    logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userProfile');
+        alert('Ви вийшли з системи.');
+        window.location.href = '/login.html';
+    });
 
-            try {
-                // Виводимо сирий рядок у консоль перед парсингом (Крок Дебагу)
-                console.log("DEBUG: Спроба парсингу userProfile. Сирий рядок:", profileDataRaw);
-                
-                const profile = JSON.parse(profileDataRaw);
-                
-                // Якщо парсинг успішний
-                // Перевірка, що це профіль інфлюенсера
-                if (profile.type !== 'influencer') {
-                    alert('Це сторінка тільки для інфлюенсерів.');
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('userProfile');
-                    window.location.href = '/login.html';
-                    return;
-                }
-                populateProfile(profile);
-                
-                console.log("DEBUG: Дані профілю успішно завантажено.");
+    // Отримуємо дані профілю
+    const profileDataRaw = localStorage.getItem('userProfile');
 
-            } catch (e) {
-                // !!! БЛОК ДЕБАГУ, ЯКИЙ СПРАЦЬОВУЄ ПРИ ПОМИЛЦІ !!!
-                console.error("FATAL ERROR: Помилка парсингу даних профілю:", e);
-                console.error("НЕКОРЕКТНИЙ РЯДОК JSON:", profileDataRaw);
-                console.warn("Скинуто невірний 'userProfile' в Local Storage. Спробуйте увійти знову.");
-                
-                // Примусове очищення пошкоджених даних
-                localStorage.removeItem('userProfile');
-                localStorage.removeItem('userToken'); // На всяк випадок очищаємо і токен
-                
-                alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
-                window.location.href = '/login.html';
-                return;
-            }
+    if (!profileDataRaw) {
+        alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
+        window.location.href = '/login.html';
+        return;
+    }
 
+    let profile;
+    try {
+        profile = JSON.parse(profileDataRaw); // Парсимо JSON лише один раз
 
-            // 3. Функція для заповнення DOM
-            function populateProfile(data) {
-                // Оновлення заголовка сторінки
-                document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
+        if (!profile || profile.type !== 'influencer') {
+            throw new Error('Невірний тип профілю');
+        }
+    } catch (err) {
+        console.error('Помилка парсингу userProfile:', err, profileDataRaw);
+        localStorage.removeItem('userProfile');
+        localStorage.removeItem('userToken');
+        alert('Помилка даних профілю. Будь ласка, увійдіть знову.');
+        window.location.href = '/login.html';
+        return;
+    }
 
-                // Основна інформація
-                document.getElementById('profileName').textContent = data.name || 'N/A';
-                document.getElementById('profileEmail').textContent = data.mail || 'N/A';
-                
-                // Біографія / Про мене
-                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
+    // Функція для заповнення DOM
+    function populateProfile(data) {
+        document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
+        document.getElementById('profileName').textContent = data.name || 'N/A';
+        document.getElementById('profileEmail').textContent = data.mail || 'N/A';
+        document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
+        
+        const socialLink = document.getElementById('socialLink');
+        if (data.social) {
+            socialLink.href = data.social;
+            socialLink.style.display = 'block';
+            socialLink.textContent = 'Перейти до профілю';
+        } else {
+            socialLink.style.display = 'none';
+        }
 
-                // Посилання на соціальну мережу
-                const socialLink = document.getElementById('socialLink');
-                socialLink.href = data.social || '#';
-                socialLink.style.display = data.social ? 'block' : 'none';
-                socialLink.textContent = data.social ? 'Перейти до профілю' : 'Посилання відсутнє';
+        document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
+        document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
+        document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
 
-                // --- Заглушки для відсутніх даних ---
-                document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
-                document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
-                
-                // Engagement Rate (Якщо буде додано)
-                document.getElementById('engagementRate').textContent = data.engagement_rate || 'N/A';
-                
-                // Приклади заглушок для цін
-                document.getElementById('pricePost').textContent = '(Запит)';
-                document.getElementById('priceStories').textContent = '(Запит)';
-                document.getElementById('priceReel').textContent = '(Запит)';
-                
-                // Посилання для контакту
-                document.getElementById('contactButton').href = `mailto:${data.mail}`;
-            }
-        });
-    </script>
+        // Заглушки
+        document.getElementById('instaCount').textContent = data.instagram_followers || 'N/A';
+        document.getElementById('tiktokCount').textContent = data.tiktok_followers || 'N/A';
+        document.getElementById('youtubeCount').textContent = data.youtube_subscribers || 'N/A';
+        document.getElementById('ageDemographics').textContent = data.age_demographics || 'N/A';
+        document.getElementById('genderDemographics').textContent = data.gender_demographics || 'N/A';
+        document.getElementById('geoTop').textContent = data.top_geo || 'N/A';
+
+        document.getElementById('pricePost').textContent = data.price_post || '(Запит)';
+        document.getElementById('priceStories').textContent = data.price_stories || '(Запит)';
+        document.getElementById('priceReel').textContent = data.price_reel || '(Запит)';
+        document.getElementById('priceIntegration').textContent = data.price_integration || 'Custom';
+    }
+
+    // Заповнюємо профіль
+    populateProfile(profile);
+});
+</script>
+
 </body>
 </html>
