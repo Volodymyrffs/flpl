@@ -15,7 +15,8 @@
             <a href="index.html" class="nav-item">Головна</a>
             <a href="#" class="nav-item">Пошук</a>
             <a href="#" class="nav-item">Кампанії</a>
-            <a href="./profile.html" class="nav-item login-btn">Мій Профіль</a> 
+            <a href="./profile.html" class="nav-item login-btn">Мій Профіль</a>
+            <a href="#" class="nav-item signup-btn" id="logoutBtn">Вийти</a> 
         </nav>
     </header>
 
@@ -24,10 +25,10 @@
 
             <div class="profile-top-section">
                 <div class="profile-top-content">
-                    <img class="profile-photo" src="https://via.placeholder.com/150x150?text=Anna" alt="Anna Kovalenko">
+                    <img class="profile-photo" id="profilePhoto" src="https://via.placeholder.com/150x150?text=Photo" alt="Фото профілю">
                     <div class="profile-main-info">
-                        <h1>Anna Kovalenko <i class="fas fa-check-circle"></i></h1>
-                        <p>TRAVEL & LIFESTYLE</p>
+                        <h1 id="profileName">Завантаження... <i class="fas fa-check-circle"></i></h1>
+                        <p id="profileNiche">Категорія та Ніша</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +37,7 @@
 
                 <div class="engagement-box">
                     <h3>ENGAGEMENT RATE</h3>
-                    <div class="engagement-rate">7.8%</div>
+                    <div class="engagement-rate" id="engagementRate">N/A</div>
                     <a href="#" class="cta-button secondary" style="margin-top: 15px;">View Profile</a>
                 </div>
 
@@ -44,17 +45,17 @@
                     <div class="followers-list">
                         <div class="follower-item">
                             <i class="fab fa-instagram"></i>
-                            <div class="count">1.2M</div>
+                            <div class="count" id="instaCount">0</div>
                             <div class="label">Followers</div>
                         </div>
                         <div class="follower-item">
                             <i class="fab fa-tiktok"></i>
-                            <div class="count">850K</div>
+                            <div class="count" id="tiktokCount">0</div>
                             <div class="label">Followers</div>
                         </div>
                         <div class="follower-item">
                             <i class="fab fa-youtube"></i>
-                            <div class="count">300K</div>
+                            <div class="count" id="youtubeCount">0</div>
                             <div class="label">Subscribers</div>
                         </div>
                     </div>
@@ -64,21 +65,17 @@
                     <h3>AUDIENCE DEMOGRAPHICS</h3>
                     <div class="detail-item">
                         <strong>Вік:</strong>
-                        <span>25-34 (40%)</span>
+                        <span id="ageDemographics">25-34 (40%)</span>
                     </div>
                     <div class="detail-item">
                         <strong>Стать:</strong>
-                        <span style="color: blue;">Women 65%</span> / <span style="color: red;">Men 35%</span>
+                        <span id="genderDemographics">Women 65% / Men 35%</span>
                     </div>
                     <div class="detail-item">
                         <strong>ТОП Гео:</strong>
-                        <span>Ukraine (45%)</span>
+                        <span id="geoTop">Ukraine (45%)</span>
                     </div>
-                    <div class="detail-item">
-                        <strong></strong>
-                        <span>Poland (25%)</span>
                     </div>
-                </div>
 
             </div>
 
@@ -86,9 +83,7 @@
 
                 <div class="section-box">
                     <h3>ABOUT ME</h3>
-                    <p>
-                        Привіт! Я Анна Коваленко, і я обожнюю подорожі та все, що пов'язано зі стилем життя. Співпрацюю з брендами, які поділяють мої цінності: автентичність, якість та пригоди. 
-                    </p>
+                    <p id="aboutMe">Завантаження опису...</p>
                 </div>
 
                 <div class="section-box">
@@ -96,19 +91,19 @@
                     <div class="pricing-table">
                         <div class="price-row">
                             <span>Post (from $500)</span>
-                            <strong>(from $300)</strong>
+                            <strong id="pricePost">(from $300)</strong>
                         </div>
                         <div class="price-row">
                             <span>Stories (x3)</span>
-                            <strong>(from $300)</strong>
+                            <strong id="priceStories">(from $300)</strong>
                         </div>
                         <div class="price-row">
                             <span>Reel/Video</span>
-                            <strong>(from $600)</strong>
+                            <strong id="priceReel">(from $600)</strong>
                         </div>
                         <div class="price-row">
                             <span>Full Integration</span>
-                            <strong>Custom</strong>
+                            <strong id="priceIntegration">Custom</strong>
                         </div>
                     </div>
                     <div class="contact-button">
@@ -128,5 +123,78 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageTitle = document.getElementById('pageTitle');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const profileDataRaw = localStorage.getItem('userProfile');
+            
+            // 1. Обробка виходу з системи
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('userToken');
+                localStorage.removeItem('userProfile');
+                alert('Ви вийшли з системи.');
+                window.location.href = '/login.html';
+            });
+
+            // 2. Перевірка наявності даних
+            if (!profileDataRaw) {
+                alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
+                window.location.href = '/login.html'; 
+                return;
+            }
+
+            try {
+                const profile = JSON.parse(profileDataRaw);
+                populateProfile(profile);
+
+            } catch (e) {
+                console.error("Помилка парсингу даних профілю:", e);
+                alert('Помилка даних профілю. Будь ласка, увійдіть знову.');
+                window.location.href = '/login.html';
+                return;
+            }
+
+
+            // 3. Функція для заповнення DOM
+            function populateProfile(data) {
+                // Основна інформація
+                const name = data.name || 'Інфлюенсер';
+                pageTitle.textContent = `${name} - Профіль`;
+                document.getElementById('profileName').textContent = name;
+                document.getElementById('profileNiche').textContent = data.niche || data.category || 'Travel & Lifestyle';
+                
+                // Фото
+                const photoElement = document.getElementById('profilePhoto');
+                photoElement.src = data.photo_url || data.avatar || 'https://via.placeholder.com/150x150?text=Anna';
+                photoElement.alt = name;
+
+                // Статистика
+                document.getElementById('engagementRate').textContent = data.engagement_rate || 'N/A';
+                document.getElementById('aboutMe').textContent = data.bio || data.subjfl || 'Детальний опис відсутній.';
+
+                // Фоловери (припускаємо структуру {instagram: '1.2M', tiktok: '850K', ...})
+                const socialStats = data.followers || data.social_stats || {};
+                
+                document.getElementById('instaCount').textContent = socialStats.instagram || '0';
+                document.getElementById('tiktokCount').textContent = socialStats.tiktok || '0';
+                document.getElementById('youtubeCount').textContent = socialStats.youtube || '0';
+                
+                // Демографія (спрощено)
+                const demographics = data.demographics || {};
+                document.getElementById('ageDemographics').textContent = demographics.age || 'N/A';
+                document.getElementById('genderDemographics').textContent = demographics.gender || 'N/A';
+                document.getElementById('geoTop').textContent = demographics.geo_top || 'N/A';
+                
+                // Ціни (припускаємо структуру {post: 300, stories: 300, ...})
+                const pricing = data.pricing || {};
+                document.getElementById('pricePost').textContent = pricing.post ? `(from $${pricing.post})` : 'N/A';
+                document.getElementById('priceStories').textContent = pricing.stories ? `(from $${pricing.stories})` : 'N/A';
+                document.getElementById('priceReel').textContent = pricing.reel ? `(from $${pricing.reel})` : 'N/A';
+            }
+        });
+    </script>
 </body>
 </html>
