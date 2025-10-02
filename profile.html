@@ -125,10 +125,11 @@
         </div>
     </footer>
 
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', () => {
             const logoutBtn = document.getElementById('logoutBtn');
-            const profileDataRaw = localStorage.getItem('userProfile');
+            // Змінюємо на 'let', щоб працював дебаг
+            let profileDataRaw = localStorage.getItem('userProfile'); 
             
             // 1. Обробка виходу з системи
             logoutBtn.addEventListener('click', (e) => {
@@ -147,18 +148,35 @@
             }
 
             try {
+                // Виводимо сирий рядок у консоль перед парсингом (Крок Дебагу)
+                console.log("DEBUG: Спроба парсингу userProfile. Сирий рядок:", profileDataRaw);
+                
                 const profile = JSON.parse(profileDataRaw);
+                
+                // Якщо парсинг успішний
                 // Перевірка, що це профіль інфлюенсера
                 if (profile.type !== 'influencer') {
                     alert('Це сторінка тільки для інфлюенсерів.');
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('userProfile');
                     window.location.href = '/login.html';
                     return;
                 }
                 populateProfile(profile);
+                
+                console.log("DEBUG: Дані профілю успішно завантажено.");
 
             } catch (e) {
-                console.error("Помилка парсингу даних профілю:", e);
-                alert('Помилка даних профілю. Будь ласка, увійдіть знову.');
+                // !!! БЛОК ДЕБАГУ, ЯКИЙ СПРАЦЬОВУЄ ПРИ ПОМИЛЦІ !!!
+                console.error("FATAL ERROR: Помилка парсингу даних профілю:", e);
+                console.error("НЕКОРЕКТНИЙ РЯДОК JSON:", profileDataRaw);
+                console.warn("Скинуто невірний 'userProfile' в Local Storage. Спробуйте увійти знову.");
+                
+                // Примусове очищення пошкоджених даних
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('userToken'); // На всяк випадок очищаємо і токен
+                
+                alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
                 window.location.href = '/login.html';
                 return;
             }
@@ -172,7 +190,7 @@
                 // Основна інформація
                 document.getElementById('profileName').textContent = data.name || 'N/A';
                 document.getElementById('profileEmail').textContent = data.mail || 'N/A';
-                
+                
                 // Біографія / Про мене
                 document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
 
@@ -185,15 +203,15 @@
                 // --- Заглушки для відсутніх даних ---
                 document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
                 document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
-                
+                
                 // Engagement Rate (Якщо буде додано)
                 document.getElementById('engagementRate').textContent = data.engagement_rate || 'N/A';
-                
+                
                 // Приклади заглушок для цін
                 document.getElementById('pricePost').textContent = '(Запит)';
                 document.getElementById('priceStories').textContent = '(Запит)';
                 document.getElementById('priceReel').textContent = '(Запит)';
-                
+                
                 // Посилання для контакту
                 document.getElementById('contactButton').href = `mailto:${data.mail}`;
             }
