@@ -54,78 +54,60 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
+<script>
+    // ... (весь попередній код: API_URL, константи) ...
+    
+    // АДРЕСА АПІ для входу - припустимо, це /login/ або /auth/
+    const API_URL = "http://185.12.143.193:8080/profiles/login/"; 
 
-    <script>
-        // АДРЕСА АПІ для входу - припустимо, це /login/ або /auth/
-        // Якщо ваш API не має спеціального роуту для входу, ми використовуємо /profiles/login/
-        const API_URL = "http://185.12.143.193:8080/profiles/login/"; // ПРИПУСТИМО
-        
-        const loginForm = document.getElementById('loginForm');
-        const loginBtn = document.getElementById('loginBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
+    // ... (константи для елементів) ...
 
-        // Функція для відправки форми через Fetch API
-        loginForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); 
-            
-            errorMessage.style.display = 'none'; // Скидаємо попередні помилки
+    // Функція для відправки форми через Fetch API
+    loginForm.addEventListener('submit', async function(event) {
+        // ... (весь код до fetch) ...
 
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Вхід...';
+        try {
+            const response = await fetch(API_URL, {
+                // ... (параметри запиту) ...
+            });
 
-            // 1. Збір даних
-            const formData = new FormData(loginForm);
-            const data = {};
-            
-            for (let pair of formData.entries()) {
-                data[pair[0]] = pair[1];
-            }
+            const result = await response.json();
 
-            // 2. Відправка JSON на API
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
+            if (response.ok) {
+                // =========================================================
+                // УСПІШНИЙ ВХІД: ЗБЕРІГАННЯ ДАНИХ ТА ПЕРЕНАПРАВЛЕННЯ
+                // =========================================================
+                
+                // Припускаємо, що API повертає об'єкт з токеном, роллю та даними профілю
+                const userRole = result.role || (result.profile_data && result.profile_data.type) || 'company';
+                
+                // Зберігаємо токен та повні дані профілю для подальшого використання
+                localStorage.setItem('userToken', result.token);
+                localStorage.setItem('userProfile', JSON.stringify(result.profile_data || result)); 
 
-                const result = await response.json();
+                alert(`Вхід успішний! Вітаємо, ${result.profile_data.name || 'Користувач'}!`);
 
-                if (response.ok) {
-                    // Успішний вхід!
-                    
-                    // Тут ви маєте отримати токен та/або роль користувача
-                    // У цьому прикладі ми припускаємо, що API повертає role та profile_id
-                    const userRole = result.role || 'company'; // Припустимо, що за замовчуванням це компанія
-                    
-                    alert(`Вхід успішний! Ви увійшли як ${userRole}.`);
-
-                    // Тимчасове перенаправлення на заглушку
-                    if (userRole === 'company') {
-                        window.location.href = '/company-dashboard.html';
-                    } else if (userRole === 'influencer') {
-                        window.location.href = '/influencer-dashboard.html';
-                    } else {
-                        window.location.href = '/index.html';
-                    }
-
+                // Перенаправлення залежно від ролі
+                if (userRole === 'company') {
+                    // Перенаправляємо на дашборд компанії
+                    window.location.href = '/company-dashboard.html'; 
+                } else if (userRole === 'influencer') {
+                    // Перенаправляємо на детальний профіль інфлюенсера
+                    window.location.href = '/influencer-profile.html'; 
                 } else {
-                    // Помилка входу (наприклад, 401 Unauthorized)
-                    errorText.textContent = result.message || 'Неправильна пошта або пароль. Спробуйте ще раз.';
-                    errorMessage.style.display = 'flex';
+                    window.location.href = '/index.html';
                 }
-            } catch (error) {
-                errorText.textContent = 'Помилка мережі або сервера. Спробуйте пізніше. (Перевірте CORS/HTTPS!)';
-                errorMessage.style.display = 'flex';
-                console.error('Fetch Error:', error);
-            } finally {
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Увійти';
+
+            } else {
+                // ... (Обробка помилок) ...
             }
-        });
-    </script>
+        } catch (error) {
+            // ... (Обробка мережевих помилок) ...
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Увійти';
+        }
+    });
+</script>
 </body>
 </html>
