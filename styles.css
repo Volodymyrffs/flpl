@@ -438,7 +438,7 @@ body {
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 8px;
-    bacjground: white;
+    background: white;
 }
 
 .section-box h3 {
@@ -523,6 +523,7 @@ body {
         flex-direction: column;
     }
 }
+
 
 
 
