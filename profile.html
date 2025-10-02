@@ -121,13 +121,13 @@
                 localStorage.removeItem('userToken');
                 localStorage.removeItem('userProfile');
                 alert('Ви вийшли з системи.');
-                window.location.href = './login.html';
+                window.location.href = '/flpl/index.html';
             });
 
             // 2. Перевірка наявності даних
             if (!profileDataRaw) {
                 alert('Сесія закінчилася або ви не увійшли. Будь ласка, увійдіть знову.');
-                window.location.href = './login.html';
+                window.location.href = '/flpl/login.html';
                 return;
             }
 
@@ -143,7 +143,7 @@
                     localStorage.removeItem('userToken');
                     localStorage.removeItem('userProfile');
                     alert('Це сторінка тільки для інфлюенсерів. Перенаправлення на вхід.');
-                    window.location.href = '/login.html';
+                    window.location.href = '/flpl/login.html';
                     return;
                 }
             } catch (err) {
