@@ -153,54 +153,59 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('userToken');
 
-        // Елементи для неавторизованого користувача
-        const loginLink = document.getElementById('loginLink');
-        const registerLink = document.getElementById('registerLink');
-
-        // Елементи для авторизованого користувача
-        const profileLink = document.getElementById('profileLink');
-        const logoutBtn = document.getElementById('logoutBtn');
+        // Динамічні елементи
+        const primaryLink = document.getElementById('dynamicPrimaryLink');
+        const secondaryLink = document.getElementById('dynamicSecondaryLink');
         
         // Перевіряємо токен і оновлюємо навігацію
         if (token) {
             // КОРИСТУВАЧ УВІЙШОВ
             
-            // Приховуємо "Увійти" та "Реєстрація"
-            if (loginLink) loginLink.style.display = 'none';
-            if (registerLink) registerLink.style.display = 'none';
+            // 1. Зміна "Увійти" на "Мій Профіль"
+            if (primaryLink) {
+                primaryLink.textContent = 'Мій Профіль';
+                primaryLink.href = './profile.html';
+                // Прибираємо клас login-btn, якщо він має стилі, які не підходять для "Профілю"
+                // primaryLink.classList.remove('login-btn'); 
+                // primaryLink.classList.add('profile-btn'); // Додаємо, якщо потрібно
+            }
 
-            // Показуємо "Мій Профіль" та "Вийти"
-            if (profileLink) profileLink.style.display = 'block'; 
-            if (logoutBtn) logoutBtn.style.display = 'block'; 
-
-            // Додаємо функцію виходу
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', (e) => {
+            // 2. Зміна "Реєстрація" на "Вийти"
+            if (secondaryLink) {
+                secondaryLink.textContent = 'Вийти';
+                secondaryLink.href = '#'; // Посилання на сторінку "Вийти" не потрібне
+                
+                // Додаємо функціональність "Вийти"
+                secondaryLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     localStorage.removeItem('userToken'); // Видаляємо токен
-                    // Перенаправляємо на головну сторінку для оновлення стану
-                    window.location.href = '/flpl/index.html'; 
+                    window.location.href = './index.html'; 
                 });
             }
 
         } else {
-            // КОРИСТУВАЧ ВИЙШОВ АБО НЕ УВІЙШОВ
-            // Ховаємо "Мій Профіль" та "Вийти"
-            if (profileLink) profileLink.style.display = 'none'; 
-            if (logoutBtn) logoutBtn.style.display = 'none';
-            // Показуємо "Увійти" та "Реєстрація" (якщо вони були приховані)
-            if (loginLink) loginLink.style.display = 'block';
-            if (registerLink) registerLink.style.display = 'block';
+            // КОРИСТУВАЧ ВИЙШОВ (Залишаємо як є, але явно встановлюємо на випадок оновлення)
+
+            if (primaryLink) {
+                primaryLink.textContent = 'Увійти';
+                primaryLink.href = './login.html';
+            }
+            if (secondaryLink) {
+                secondaryLink.textContent = 'Реєстрація';
+                secondaryLink.href = './register.html';
+                // Важливо: видалити попередній обробник подій "Вийти", якщо він був
+                // Хоча при перезавантаженні сторінки він видаляється автоматично.
+            }
         }
     });
 </script>
 </body>
 </html>
+
 
 
 
