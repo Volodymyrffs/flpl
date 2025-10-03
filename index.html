@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -73,11 +73,135 @@
 
 </body>
 </html>
+ -->
 
 
 
 
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluenc — Маркетплейс для Блогерів та Брендів</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="/flpl/company-discovery.html" class="nav-item">Інфлюенсери</a>
+            <a href="/flpl/company-list.html" class="nav-item">Компанії</a>
 
+            <a href="./login.html" class="nav-item login-btn" id="loginLink">Увійти</a>
+            <a href="./register.html" class="nav-item signup-btn" id="registerLink">Реєстрація</a>
+            
+            <a href="./profile.html" class="nav-item login-btn" id="profileLink" style="display: none;">Мій Профіль</a>
+            <a href="#" class="nav-item signup-btn" id="logoutBtn" style="display: none;">Вийти</a>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Маркетплейс, що Об'єднує Блогерів та Бренди.</h1>
+            <p class="subtitle">Співпраця без посередників. Перевірена аналітика. Гарантовані контракти.</p>
+            <div class="cta-group">
+                <a href="/register/brand" class="cta-button primary">Я — Бренд (Почати пошук)</a>
+                <a href="/register/blogger" class="cta-button secondary">Я — Блогер (Створити Профіль)</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="./placeholder-hero.png" alt="Візуалізація успішної співпраці">
+        </div>
+    </section>
+    
+    <section class="value-section">
+        <h2>Переваги для Обох Сторін</h2>
+        <div class="value-columns">
+            
+            <div class="value-card brand-focus">
+                <h3>Для Брендів</h3>
+                <ul>
+                    <li><i class="fas fa-search"></i> Точна Фільтрація за ER, нішею та ЦА.</li>
+                    <li><i class="fas fa-chart-line"></i> Прозора Аналітика та перевірка даних.</li>
+                    <li><i class="fas fa-tasks"></i> Керування усіма Кампаніями в одному місці.</li>
+                </ul>
+            </div>
+
+            <div class="value-card influencer-focus">
+                <h3>Для Інфлюенсерів</h3>
+                <ul>
+                    <li><i class="fas fa-handshake"></i> Прямі Контракти з великими компаніями.</li>
+                    <li><i class="fas fa-shield-alt"></i> Захист Оплати та гарантовані виплати.</li>
+                    <li><i class="fas fa-piggy-bank"></i> Чіткий прайс-ліст без прихованих комісій.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <h2>Готові до співпраці на основі перевірених даних?</h2>
+        <a href="./register.html" class="cta-button primary large">Розпочати Співпрацю!</a>
+    </section>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Fluenc. Усі права захищені.</p>
+        <div class="footer-links">
+            <a href="#">Про нас</a>
+            <a href="#">FAQ</a>
+            <a href="#">Умови користування</a>
+        </div>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('userToken');
+
+        // Елементи для неавторизованого користувача
+        const loginLink = document.getElementById('loginLink');
+        const registerLink = document.getElementById('registerLink');
+
+        // Елементи для авторизованого користувача
+        const profileLink = document.getElementById('profileLink');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Перевіряємо токен і оновлюємо навігацію
+        if (token) {
+            // КОРИСТУВАЧ УВІЙШОВ
+            
+            // Приховуємо "Увійти" та "Реєстрація"
+            if (loginLink) loginLink.style.display = 'none';
+            if (registerLink) registerLink.style.display = 'none';
+
+            // Показуємо "Мій Профіль" та "Вийти"
+            if (profileLink) profileLink.style.display = 'block'; 
+            if (logoutBtn) logoutBtn.style.display = 'block'; 
+
+            // Додаємо функцію виходу
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('userToken'); // Видаляємо токен
+                    // Перенаправляємо на головну сторінку для оновлення стану
+                    window.location.href = '/flpl/index.html'; 
+                });
+            }
+
+        } else {
+            // КОРИСТУВАЧ ВИЙШОВ АБО НЕ УВІЙШОВ
+            // Ховаємо "Мій Профіль" та "Вийти"
+            if (profileLink) profileLink.style.display = 'none'; 
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            // Показуємо "Увійти" та "Реєстрація" (якщо вони були приховані)
+            if (loginLink) loginLink.style.display = 'block';
+            if (registerLink) registerLink.style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>
 
 
 
