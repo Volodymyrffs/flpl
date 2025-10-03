@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пошук Інфлюенсерів | Fluenc</title>
+    <link rel="stylesheet" href="./styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="/flpl/index.html" class="nav-item">Головна</a>
+            <a href="/flpl/company-discovery.html" class="nav-item active">Пошук</a>
+            <a href="#" class="nav-item">Кампанії</a>
+            
+            <a href="/flpl/influencer-profile.html" class="nav-item login-btn" id="navMyProfile">Мій Профіль</a>
+            <a href="#" class="nav-item signup-btn" id="navLogoutBtn" style="display: none;">Вийти</a>
+
+            <a href="/flpl/login.html" class="nav-item login-btn" id="navLogin" style="display: none;">Увійти</a>
+            <a href="/flpl/signup.html" class="nav-item signup-btn" id="navSignup" style="display: none;">Зареєструватися</a>
+        </nav>
+    </header>
+
+    <div class="discovery-container">
+        
+        <div class="discovery-hero">
+            <h1>Знайдіть Ідеального Інфлюенсера</h1>
+            <p>Фільтруйте та сортуйте сотні перевірених профілів, щоб знайти найкращого партнера для вашої кампанії.</p>
+        </div>
+
+        <div class="filter-panel">
+            <div class="filter-group">
+                <label for="category">Категорія</label>
+                <select id="category">
+                    <option value="">Усі категорії</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="tech">Tech</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="food">Food</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="followers">Підписники (від)</label>
+                <select id="followers">
+                    <option value="">Будь-яка кількість</option>
+                    <option value="10k">10,000+</option>
+                    <option value="50k">50,000+</option>
+                    <option value="100k">100,000+</option>
+                    <option value="1m">1,000,000+</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="country">Країна</label>
+                <input type="text" id="country" placeholder="Наприклад, Україна">
+            </div>
+
+            <button class="cta-button primary">
+                <i class="fas fa-search"></i> Пошук
+            </button>
+        </div>
+
+        <div class="results-header">
+            <span class="results-count">Знайдено 248 інфлюенсерів</span>
+            <div class="sort-options">
+                <label for="sort">Сортувати за:</label>
+                <select id="sort">
+                    <option value="relevance">Релевантність</option>
+                    <option value="followers_desc">Followers (спадання)</option>
+                    <option value="price_asc">Ціна (зростання)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="influencer-grid">
+            <div class="influencer-card">
+                <img class="card-photo" src="/flpl/3kyuvn3ky.png" alt="Фото профілю">
+                <div class="card-info">
+                    <h3 class="card-name">Володимир ФФС <i class="fas fa-check-circle verified-small"></i></h3>
+                    <p class="card-niche">Категорія: **Tech | Gaming**</p>
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <i class="fab fa-instagram"></i>
+                            <span class="stat-count">56K</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fab fa-tiktok"></i>
+                            <span class="stat-count">1.2M</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fab fa-youtube"></i>
+                            <span class="stat-count">240K</span>
+                        </div>
+                    </div>
+                    <div class="card-pricing">
+                        **Ціна поста:** $350+
+                    </div>
+                </div>
+                <a href="/flpl/influencer-profile.html?id=1" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+            </div>
+            <div class="influencer-card">
+                <img class="card-photo" src="/flpl/user_placeholder.png" alt="Фото профілю">
+                <div class="card-info">
+                    <h3 class="card-name">Марина С.</h3>
+                    <p class="card-niche">Категорія: **Fashion | Beauty**</p>
+                    <div class="card-stats">
+                        <div class="stat-item"><i class="fab fa-instagram"></i><span class="stat-count">110K</span></div>
+                        <div class="stat-item"><i class="fab fa-tiktok"></i><span class="stat-count">45K</span></div>
+                        <div class="stat-item"><i class="fab fa-youtube"></i><span class="stat-count">N/A</span></div>
+                    </div>
+                    <div class="card-pricing">
+                        **Ціна сторіс:** $150+
+                    </div>
+                </div>
+                <a href="/flpl/influencer-profile.html?id=2" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+            </div>
+
+            <div class="influencer-card">
+                <img class="card-photo" src="/flpl/user_placeholder.png" alt="Фото профілю">
+                <div class="card-info">
+                    <h3 class="card-name">Іван П.</h3>
+                    <p class="card-niche">Категорія: **Travel | Vlogs**</p>
+                    <div class="card-stats">
+                        <div class="stat-item"><i class="fab fa-instagram"></i><span class="stat-count">240K</span></div>
+                        <div class="stat-item"><i class="fab fa-tiktok"></i><span class="stat-count">N/A</span></div>
+                        <div class="stat-item"><i class="fab fa-youtube"></i><span class="stat-count">500K</span></div>
+                    </div>
+                    <div class="card-pricing">
+                        **Ціна інтеграції:** Custom
+                    </div>
+                </div>
+                <a href="/flpl/influencer-profile.html?id=3" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <a href="#" class="page-link disabled">Попередня</a>
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">...</a>
+            <a href="#" class="page-link">Наступна</a>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Fluenc. Усі права захищені.</p>
+        <div class="footer-links">
+            <a href="#">Про нас</a>
+            <a href="#">FAQ</a>
+            <a href="#">Умови користування</a>
+        </div>
+    </footer>
+
+    <script>
+        // Цей скрипт керує відображенням кнопок Увійти/Мій Профіль
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileDataRaw = localStorage.getItem('userProfile');
+            const isLoggedIn = !!profileDataRaw;
+            const LOGIN_PATH = '/flpl/login.html'; 
+            
+            const navMyProfile = document.getElementById('navMyProfile');
+            const navLogoutBtn = document.getElementById('navLogoutBtn');
+            const navLogin = document.getElementById('navLogin');
+            const navSignup = document.getElementById('navSignup');
+            
+            if (isLoggedIn) {
+                if (navMyProfile) navMyProfile.style.display = 'block'; 
+                if (navLogoutBtn) navLogoutBtn.style.display = 'block';
+                if (navLogin) navLogin.style.display = 'none';
+                if (navSignup) navSignup.style.display = 'none';
+            } else {
+                if (navMyProfile) navMyProfile.style.display = 'none'; 
+                if (navLogoutBtn) navLogoutBtn.style.display = 'none';
+                if (navLogin) navLogin.style.display = 'block';
+                if (navSignup) navSignup.style.display = 'block';
+            }
+            
+            if (navLogoutBtn) {
+                navLogoutBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('userProfile');
+                    alert('Ви вийшли з системи.');
+                    window.location.href = LOGIN_PATH; 
+                });
+            }
+        });
+    </script>
+</body>
+</html>
