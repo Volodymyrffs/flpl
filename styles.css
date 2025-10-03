@@ -530,6 +530,282 @@ body {
 
 
 
+/* ========================================================= */
+/* СТИЛІ СТОРІНКИ COMPANY-DISCOVERY.HTML (ПОШУК ІНФЛЮЕНСЕРІВ) */
+/* ========================================================= */
+
+.discovery-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 5%; /* Використовуємо той самий відступ, що і для хедера/футера */
+    flex-grow: 1; /* Для коректного розміщення футера внизу */
+}
+
+.discovery-hero {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.discovery-hero h1 {
+    color: var(--text-dark);
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.discovery-hero p {
+    color: var(--text-light);
+    font-size: 18px;
+}
+
+/* --- Фільтри --- */
+.filter-panel {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    flex-grow: 1;
+}
+
+.filter-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.filter-panel select,
+.filter-panel input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Використовуємо ваш стандартний border-radius */
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.filter-panel select:focus,
+.filter-panel input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Кнопка пошуку у фільтрах */
+.filter-panel .cta-button.primary {
+    padding: 10px 20px;
+    height: 40px; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* --- Заголовок результатів та Сортування --- */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.results-count {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sort-options label {
+    color: var(--text-light);
+}
+
+.sort-options select {
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+}
+
+/* --- Сітка Інфлюенсерів --- */
+.influencer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.influencer-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.influencer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-photo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.card-name {
+    margin: 0 0 5px;
+    color: var(--text-dark);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-niche {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.stat-item i {
+    font-size: 18px;
+    margin-bottom: 3px;
+    color: var(--primary-color);
+}
+.stat-item i.fa-instagram { color: #E4405F; }
+.stat-item i.fa-tiktok { color: #000; }
+.stat-item i.fa-youtube { color: #FF0000; }
+
+.stat-count {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.card-pricing {
+    font-size: 14px;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.cta-button.secondary.full-width-btn {
+    /* Наслідує стилі з вашого базового .cta-button.secondary */
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: auto;
+}
+.cta-button.secondary.full-width-btn:hover {
+    background-color: #f7f7f7;
+    transform: translateY(-1px);
+}
+
+
+.verified-small {
+    color: #4CAF50; /* Використовуємо зелений для верифікації */
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+
+/* --- Пагінація --- */
+.pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.page-link {
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: 8px 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    margin: 0 3px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+}
+
+.page-link.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.page-link:not(.active):hover {
+    background-color: #e6f0ff; /* Світло-блакитний */
+}
+
+.page-link.disabled {
+    color: var(--text-light);
+    border-color: #ccc;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+/* --- Адаптивність для Discovery Page --- */
+@media (max-width: 768px) {
+    .filter-panel {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .filter-group {
+        min-width: 100%;
+    }
+    .filter-panel .cta-button.primary {
+        width: 100%;
+    }
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .influencer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
 
 
 
