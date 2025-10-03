@@ -134,46 +134,25 @@
             const isVerified = ''; 
 
             return `
-                // <div class="influencer-card">
-                //     <img class="card-photo" src="${photoUrl}" alt="${name}">
-                //     <div class="card-info">
-                //         <h3 class="card-name">${name} ${isVerified}</h3>
-                //         <p class="card-niche">Категорія: **${niche}**</p>
-                        
-                //         <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
-                //             <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
-                //                 ${primarySocialIcon}
-                //                 <span class="stat-count" style="font-size: 14px; font-weight: 500;">
-                //                     ${influencer.social || 'Соціальна мережа не вказана'}
-                //                 </span>
-                //             </div>
-                //         </div>
-
-                //         <div class="card-pricing">
-                //             **Ціна поста:** ${price}
-                //         </div>
-                //     </div>
-                  <div class="influencer-card">
+                <div class="influencer-card">
                     <img class="card-photo" src="${photoUrl}" alt="${name}">
                     <div class="card-info">
                         <h3 class="card-name">${name} ${isVerified}</h3>
                         <p class="card-niche">Категорія: **${niche}**</p>
                         
                         <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
-                            <a href="${socialLink}" target="_blank" class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px; text-decoration: none; color: inherit;">
+                            <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
                                 ${primarySocialIcon}
                                 <span class="stat-count" style="font-size: 14px; font-weight: 500;">
                                     ${influencer.social || 'Соціальна мережа не вказана'}
                                 </span>
-                            </a>
                             </div>
+                        </div>
 
                         <div class="card-pricing">
                             **Ціна поста:** ${price}
                         </div>
-                    </div>
-                    <a href="${profileUrl}" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
-                </div>
+                    </div>    
                     <a href="${profileUrl}" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
                 </div>
             `;
