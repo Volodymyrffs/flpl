@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пошук Компаній | Fluenc</title>
+    <link rel="stylesheet" href="./styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">Fluenc.</div>
+        <nav class="main-nav">
+            <a href="/flpl/index.html" class="nav-item">Головна</a>
+            <a href="/flpl/company-discovery.html" class="nav-item">Інфлюенсери</a> 
+            <a href="/flpl/company-list.html" class="nav-item active">Компанії</a>
+            <a href="./profile.html" class="nav-item login-btn">Мій Профіль</a>
+            <a href="#" class="nav-item signup-btn" id="logoutBtn">Вийти</a>
+        </nav>
+    </header>
+
+    <div class="discovery-container">
+        
+        <div class="discovery-hero">
+            <h1>Знайдіть Ідеального Партнера-Компанію</h1>
+            <p>Фільтруйте та сортуйте профілі компаній для співпраці.</p>
+        </div>
+
+        <div class="filter-panel">
+            <div class="filter-group">
+                <label for="category">Галузь</label>
+                <select id="category">
+                    <option value="">Усі галузі</option>
+                    <option value="tech">Tech</option>
+                    <option value="food">Food & Beverage</option>
+                    <option value="fashion">Fashion & Apparel</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="followers">Бюджет (від)</label>
+                <select id="followers">
+                    <option value="">Будь-який бюджет</option>
+                    <option value="10k">$10,000+</option>
+                    <option value="50k">$50,000+</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="country">Країна</label>
+                <input type="text" id="country" placeholder="Наприклад, Німеччина">
+            </div>
+
+            <button class="cta-button primary" id="searchButton">
+                <i class="fas fa-search"></i> Пошук
+            </button>
+        </div>
+
+        <div class="results-header">
+            <span class="results-count" id="resultsCount">Завантаження...</span>
+            <div class="sort-options">
+                <label for="sort">Сортувати за:</label>
+                <select id="sort">
+                    <option value="relevance">Релевантність</option>
+                    <option value="budget_desc">Бюджет (спадання)</option>
+                    <option value="age_asc">Найновіші</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="influencer-grid" id="companyGrid">
+            </div>
+        
+        <div class="pagination">
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Fluenc. Усі права захищені.</p>
+        <div class="footer-links">
+            <a href="#">Про нас</a>
+            <a href="#">FAQ</a>
+            <a href="#">Умови користування</a>
+        </div>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // !!! ЗМІНА API URL ДЛЯ КОМПАНІЙ !!!
+        const API_URL = 'http://185.12.143.193:8080/profiles/companies/';
+        const storedToken = localStorage.getItem('userToken'); 
+        // !!! ЗМІНА ID КОНТЕЙНЕРА !!!
+        const companyGrid = document.getElementById('companyGrid'); 
+        const resultsCount = document.getElementById('resultsCount');
+        const searchButton = document.getElementById('searchButton');
+        const LOGIN_PATH = './login.html'; 
+        
+        // !!! Шлях до дефолтного фото !!!
+        const DEFAULT_PHOTO_URL = './3kyuvn3ky.png'; 
+
+        // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ
+        if (!storedToken) {
+            resultsCount.textContent = 'Необхідна авторизація';
+            companyGrid.innerHTML = `
+                <div class="error-state" style="text-align: center; padding: 50px;">
+                    <h2>Ви не авторизовані</h2>
+                    <p>Для перегляду списку компаній, будь ласка, <a href="${LOGIN_PATH}" style="color: var(--primary-color);">увійдіть</a> в систему.</p>
+                </div>
+            `;
+            return; 
+        }
+
+        // 2. ДОПОМІЖНІ ФУНКЦІЇ
+        function formatCount(count) { return 'N/A'; }
+        
+        // Визначаємо іконку для соціальної мережі/сайту компанії
+        function getSocialIcon(socialValue) {
+            if (!socialValue) return '<i class="fas fa-globe"></i>';
+            const lowerValue = socialValue.toLowerCase();
+            if (lowerValue.includes('facebook') || lowerValue.includes('fb')) return '<i class="fab fa-facebook" style="color: #4267B2;"></i>';
+            if (lowerValue.includes('linkedin')) return '<i class="fab fa-linkedin" style="color: #0A66C2;"></i>';
+            if (lowerValue.includes('http') || lowerValue.includes('www')) return '<i class="fas fa-link"></i>';
+            return '<i class="fas fa-globe"></i>'; 
+        }
+        
+        /**
+         * Генерує HTML-картку КОМПАНІЇ.
+         * Використовуємо лише id, name, social.
+         */
+        function createCompanyCard(company) {
+            const photoUrl = DEFAULT_PHOTO_URL;
+            // Посилання на профіль компанії
+            const profileUrl = company.id ? `/flpl/company-profile.html?id=${company.id}` : '#'; 
+            const name = company.name || `Компанія #${company.id || 'N/A'}`;
+            const primarySocialIcon = getSocialIcon(company.social);
+            
+            const niche = 'Не вказана галузь';
+            const price = 'Запит на ціну'; // Це заглушка для полів компанії
+            const isVerified = ''; 
+
+            let socialLink = company.social || '#'; 
+
+            // ВИПРАВЛЕННЯ URL (забезпечення абсолютності)
+            if (socialLink.startsWith('https:/') && !socialLink.startsWith('https://')) {
+                socialLink = socialLink.replace('https:/', 'https://');
+            } else if (socialLink.startsWith('http:/') && !socialLink.startsWith('http://')) {
+                socialLink = socialLink.replace('http:/', 'http://');
+            }
+
+            return `
+                <div class="influencer-card">
+                    <img class="card-photo" src="${photoUrl}" alt="${name}">
+                    <div class="card-info">
+                        <h3 class="card-name">${name} ${isVerified}</h3>
+                        <p class="card-niche">Галузь: **${niche}**</p>
+                        
+                        <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
+                            <a href="${socialLink}" target="_blank" class="stat-item" 
+                               style="flex-direction: row; gap: 10px; margin-bottom: 5px; text-decoration: none; color: inherit;">
+                                ${primarySocialIcon}
+                            </a>
+                        </div>
+
+                        <div class="card-pricing">
+                            **Потреби:** ${price} 
+                        </div>
+                    </div> 
+                    <a href="${profileUrl}" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+                </div>
+            `;
+        }
+
+        // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ
+        async function fetchCompanies() {
+            companyGrid.innerHTML = '<h2>Завантаження даних компаній...</h2>';
+            resultsCount.textContent = 'Завантаження...';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${storedToken}`, 
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('userToken');
+                        alert('Ваша сесія закінчилася або токен недійсний. Будь ласка, увійдіть знову.');
+                        window.location.href = LOGIN_PATH;
+                        return;
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // === ПАРСИНГ: Очікуємо, що масив називається 'companies' або 'influencers' (залежно від конфігурації API) ===
+                let companies;
+                if (data && Array.isArray(data.companies)) {
+                    companies = data.companies; 
+                } else if (data && Array.isArray(data.influencers)) {
+                     // Запасний варіант: якщо API неправильно назвав поле
+                    companies = data.influencers;
+                } else if (Array.isArray(data)) {
+                    companies = data; // Запасний варіант для прямого масиву
+                } else {
+                    companies = [];
+                }
+                // =======================================================================
+
+                if (companies.length === 0) {
+                    companyGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, компаній не знайдено.</p>';
+                    resultsCount.textContent = 'Знайдено 0 компаній';
+                    return;
+                }
+
+                // Рендеринг карток
+                const cardsHtml = companies.map(createCompanyCard).join('');
+                companyGrid.innerHTML = cardsHtml;
+                resultsCount.textContent = `Знайдено ${companies.length} компаній`;
+
+            } catch (error) {
+                console.error('Помилка завантаження компаній:', error);
+                companyGrid.innerHTML = `
+                    <div class="error-state" style="text-align: center; padding: 30px;">
+                        <h2>Помилка завантаження даних</h2>
+                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер.</p>
+                    </div>
+                `;
+                resultsCount.textContent = 'Помилка завантаження';
+            }
+        }
+
+        // Запускаємо завантаження даних
+        fetchCompanies();
+        
+        // Додаємо обробник подій для кнопки "Пошук"
+        searchButton.addEventListener('click', fetchCompanies);
+    });
+</script>
+</body>
+</html>
