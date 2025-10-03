@@ -99,7 +99,7 @@
         
         const DEFAULT_PHOTO_URL = '/flpl/user_placeholder.png'; 
 
-        // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ (без змін)
+        // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ
         if (!storedToken) {
             resultsCount.textContent = 'Необхідна авторизація';
             influencerGrid.innerHTML = `
@@ -111,7 +111,7 @@
             return; 
         }
 
-        // 2. ДОПОМІЖНІ ФУНКЦІЇ (без змін)
+        // 2. ДОПОМІЖНІ ФУНКЦІЇ
         function formatCount(count) { return 'N/A'; }
         
         function getSocialIcon(socialValue) {
@@ -124,9 +124,11 @@
         
         function createInfluencerCard(influencer) {
             const photoUrl = DEFAULT_PHOTO_URL;
-            const profileUrl = `/flpl/influencer-profile.html?id=${influencer.id}`;
-            const name = influencer.name || `Користувач #${influencer.id}`;
+            // Перевіряємо, чи існує ID, інакше використовуємо заглушку
+            const profileUrl = influencer.id ? `/flpl/influencer-profile.html?id=${influencer.id}` : '#'; 
+            const name = influencer.name || `Користувач #${influencer.id || 'N/A'}`;
             const primarySocialIcon = getSocialIcon(influencer.social);
+            
             const niche = 'Не визначено';
             const price = 'Запит';
             const isVerified = ''; 
@@ -137,6 +139,7 @@
                     <div class="card-info">
                         <h3 class="card-name">${name} ${isVerified}</h3>
                         <p class="card-niche">Категорія: **${niche}**</p>
+                        
                         <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
                             <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
                                 ${primarySocialIcon}
@@ -148,6 +151,7 @@
                                 **Біо:** ${influencer.bio || 'Немає опису.'}
                             </div>
                         </div>
+
                         <div class="card-pricing">
                             **Ціна поста:** ${price}
                         </div>
@@ -157,7 +161,7 @@
             `;
         }
 
-        // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ (Оновлена для діагностики)
+        // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ (Виправлено парсинг)
         async function fetchInfluencers() {
             influencerGrid.innerHTML = '<h2>Завантаження даних...</h2>';
             resultsCount.textContent = 'Завантаження...';
@@ -172,7 +176,6 @@
                 });
 
                 if (!response.ok) {
-                    // Обробка недійсного токена або інших помилок HTTP
                     if (response.status === 401 || response.status === 403) {
                         localStorage.removeItem('userToken');
                         alert('Ваша сесія закінчилася або токен недійсний. Будь ласка, увійдіть знову.');
@@ -184,29 +187,21 @@
 
                 const data = await response.json();
                 
-                // === ДІАГНОСТИКА: ВИВІД СИРОЇ ВІДПОВІДІ У КОНСОЛЬ ===
-                console.log('--- Сирі дані від API: ---');
-                console.log(data);
-                console.log('--------------------------');
-
+                // === ВИПРАВЛЕННЯ ПАРСИНГУ: ЗНАЙШЛИ МАСИВ У ВЛАСТИВОСТІ 'influencers' ===
                 let influencers;
-
-                // Спробуємо визначити, який саме об'єкт містить масив:
-                if (Array.isArray(data)) {
-                    influencers = data; // Варіант 1: Відповідь - це безпосередньо масив
-                } else if (data && Array.isArray(data.results)) {
-                    influencers = data.results; // Варіант 2: Відповідь - це об'єкт з полем 'results' (як у Django REST Framework)
-                } else if (data && data.length !== undefined) {
-                     // Додаткова перевірка: якщо це об'єкт, але він імітує масив (рідко)
-                    influencers = Object.values(data);
-                }
-                 else {
-                    // Якщо ми не можемо визначити масив, припускаємо, що це порожній результат
+                if (data && Array.isArray(data.influencers)) {
+                    influencers = data.influencers; 
+                } else if (Array.isArray(data)) {
+                    influencers = data; // Запасний варіант для прямого масиву
+                } else {
+                    // Якщо не вдалося знайти масив, залишаємо його порожнім
                     influencers = [];
                 }
+                // =======================================================================
+
 
                 if (influencers.length === 0) {
-                    influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено (або не вдалося їх розпарсити).</p>';
+                    influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено.</p>';
                     resultsCount.textContent = 'Знайдено 0 інфлюенсерів';
                     return;
                 }
@@ -221,7 +216,7 @@
                 influencerGrid.innerHTML = `
                     <div class="error-state" style="text-align: center; padding: 30px;">
                         <h2>Помилка завантаження даних</h2>
-                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер. (Див. консоль для деталей)</p>
+                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер.</p>
                     </div>
                 `;
                 resultsCount.textContent = 'Помилка завантаження';
