@@ -88,155 +88,152 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const API_URL = 'http://185.12.143.193:8080/profiles/influencers/';
-            // Токен беремо з localStorage
-            const storedToken = localStorage.getItem('userToken'); 
-            const influencerGrid = document.getElementById('influencerGrid');
-            const resultsCount = document.getElementById('resultsCount');
-            const searchButton = document.getElementById('searchButton');
-            const LOGIN_PATH = './login.html'; 
-            
-            // Шлях до дефолтного фото
-            const DEFAULT_PHOTO_URL = '/flpl/user_placeholder.png'; 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const API_URL = 'http://185.12.143.193:8080/profiles/influencers/';
+        const storedToken = localStorage.getItem('userToken'); 
+        const influencerGrid = document.getElementById('influencerGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const searchButton = document.getElementById('searchButton');
+        const LOGIN_PATH = './login.html'; 
+        
+        const DEFAULT_PHOTO_URL = '/flpl/user_placeholder.png'; 
 
-            // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ
-            if (!storedToken) {
-                resultsCount.textContent = 'Необхідна авторизація';
-                influencerGrid.innerHTML = `
-                    <div class="error-state" style="text-align: center; padding: 50px;">
-                        <h2>Ви не авторизовані</h2>
-                        <p>Для перегляду списку інфлюенсерів, будь ласка, <a href="${LOGIN_PATH}" style="color: var(--primary-color);">увійдіть</a> в систему.</p>
-                    </div>
-                `;
-                return; 
-            }
+        // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ (без змін)
+        if (!storedToken) {
+            resultsCount.textContent = 'Необхідна авторизація';
+            influencerGrid.innerHTML = `
+                <div class="error-state" style="text-align: center; padding: 50px;">
+                    <h2>Ви не авторизовані</h2>
+                    <p>Для перегляду списку інфлюенсерів, будь ласка, <a href="${LOGIN_PATH}" style="color: var(--primary-color);">увійдіть</a> в систему.</p>
+                </div>
+            `;
+            return; 
+        }
 
-            // 2. ДОПОМІЖНІ ФУНКЦІЇ
-            // Залишаємо лише заглушку, оскільки дані про підписників відсутні
-            function formatCount(count) {
-                return 'N/A'; 
-            }
+        // 2. ДОПОМІЖНІ ФУНКЦІЇ (без змін)
+        function formatCount(count) { return 'N/A'; }
+        
+        function getSocialIcon(socialValue) {
+            if (!socialValue) return '<i class="fas fa-globe"></i>';
+            const lowerValue = socialValue.toLowerCase();
+            if (lowerValue.includes('vk')) return '<i class="fab fa-vk" style="color: #4C75A3;"></i>';
+            if (lowerValue.includes('inst') || lowerValue.includes('instagram')) return '<i class="fab fa-instagram" style="color: #E4405F;"></i>';
+            return '<i class="fas fa-globe"></i>'; 
+        }
+        
+        function createInfluencerCard(influencer) {
+            const photoUrl = DEFAULT_PHOTO_URL;
+            const profileUrl = `/flpl/influencer-profile.html?id=${influencer.id}`;
+            const name = influencer.name || `Користувач #${influencer.id}`;
+            const primarySocialIcon = getSocialIcon(influencer.social);
+            const niche = 'Не визначено';
+            const price = 'Запит';
+            const isVerified = ''; 
 
-            // Визначення соціальної мережі за значенням
-            function getSocialIcon(socialValue) {
-                if (!socialValue) return '<i class="fas fa-globe"></i>';
-
-                const lowerValue = socialValue.toLowerCase();
-                if (lowerValue.includes('vk')) {
-                    return '<i class="fab fa-vk" style="color: #4C75A3;"></i>';
-                }
-                if (lowerValue.includes('inst') || lowerValue.includes('instagram')) {
-                     return '<i class="fab fa-instagram" style="color: #E4405F;"></i>';
-                }
-                return '<i class="fas fa-globe"></i>'; 
-            }
-            
-            /**
-             * Генерує HTML-картку інфлюенсера, використовуючи лише доступні поля.
-             */
-            function createInfluencerCard(influencer) {
-                // Використання DEFAULT_PHOTO_URL, оскільки поля photo немає
-                const photoUrl = DEFAULT_PHOTO_URL;
-                
-                // Використовуємо id для посилання на профіль
-                const profileUrl = `/flpl/influencer-profile.html?id=${influencer.id}`;
-                const name = influencer.name || `Користувач #${influencer.id}`;
-                const primarySocialIcon = getSocialIcon(influencer.social);
-                
-                // Всі інші дані замінені на заглушки
-                const niche = 'Не визначено';
-                const price = 'Запит';
-                const isVerified = ''; 
-
-                return `
-                    <div class="influencer-card">
-                        <img class="card-photo" src="${photoUrl}" alt="${name}">
-                        <div class="card-info">
-                            <h3 class="card-name">${name} ${isVerified}</h3>
-                            <p class="card-niche">Категорія: **${niche}**</p>
-                            
-                            <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
-                                <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
-                                    ${primarySocialIcon}
-                                    <span class="stat-count" style="font-size: 14px; font-weight: 500;">
-                                        ${influencer.social || 'Соціальна мережа не вказана'}
-                                    </span>
-                                </div>
-                                <div class="stat-item" style="font-size: 12px; color: var(--text-light); border-top: 1px solid #f0f0f0; padding-top: 10px; ">
-                                    **Біо:** ${influencer.bio || 'Немає опису.'}
-                                </div>
+            return `
+                <div class="influencer-card">
+                    <img class="card-photo" src="${photoUrl}" alt="${name}">
+                    <div class="card-info">
+                        <h3 class="card-name">${name} ${isVerified}</h3>
+                        <p class="card-niche">Категорія: **${niche}**</p>
+                        <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
+                            <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
+                                ${primarySocialIcon}
+                                <span class="stat-count" style="font-size: 14px; font-weight: 500;">
+                                    ${influencer.social || 'Соціальна мережа не вказана'}
+                                </span>
                             </div>
-
-                            <div class="card-pricing">
-                                **Ціна поста:** ${price}
+                            <div class="stat-item" style="font-size: 12px; color: var(--text-light); border-top: 1px solid #f0f0f0; padding-top: 10px; ">
+                                **Біо:** ${influencer.bio || 'Немає опису.'}
                             </div>
                         </div>
-                        <a href="${profileUrl}" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+                        <div class="card-pricing">
+                            **Ціна поста:** ${price}
+                        </div>
                     </div>
-                `;
-            }
+                    <a href="${profileUrl}" class="cta-button secondary full-width-btn">Переглянути Профіль</a>
+                </div>
+            `;
+        }
 
-            // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ
-            async function fetchInfluencers() {
-                influencerGrid.innerHTML = '<h2>Завантаження даних...</h2>';
-                resultsCount.textContent = 'Завантаження...';
+        // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ (Оновлена для діагностики)
+        async function fetchInfluencers() {
+            influencerGrid.innerHTML = '<h2>Завантаження даних...</h2>';
+            resultsCount.textContent = 'Завантаження...';
 
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Token ${storedToken}`, 
-                            'Content-Type': 'application/json'
-                        }
-                    });
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${storedToken}`, 
+                        'Content-Type': 'application/json'
+                    }
+                });
 
+                if (!response.ok) {
+                    // Обробка недійсного токена або інших помилок HTTP
                     if (response.status === 401 || response.status === 403) {
                         localStorage.removeItem('userToken');
                         alert('Ваша сесія закінчилася або токен недійсний. Будь ласка, увійдіть знову.');
                         window.location.href = LOGIN_PATH;
                         return;
                     }
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    
-                    // Обробляємо, чи це масив, чи об'єкт з results
-                    const influencers = Array.isArray(data) ? data : (data.results || []);
-
-                    if (influencers.length === 0) {
-                        influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено.</p>';
-                        resultsCount.textContent = 'Знайдено 0 інфлюенсерів';
-                        return;
-                    }
-
-                    // Рендеринг карток
-                    const cardsHtml = influencers.map(createInfluencerCard).join('');
-                    influencerGrid.innerHTML = cardsHtml;
-                    resultsCount.textContent = `Знайдено ${influencers.length} інфлюенсерів`;
-
-                } catch (error) {
-                    console.error('Помилка завантаження інфлюенсерів:', error);
-                    influencerGrid.innerHTML = `
-                        <div class="error-state" style="text-align: center; padding: 30px;">
-                            <h2>Помилка завантаження даних</h2>
-                            <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер.</p>
-                        </div>
-                    `;
-                    resultsCount.textContent = 'Помилка завантаження';
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            }
 
-            // Запускаємо завантаження даних
-            fetchInfluencers();
-            
-            // Додаємо обробник подій для кнопки "Пошук"
-            searchButton.addEventListener('click', fetchInfluencers);
-        });
-    </script>
+                const data = await response.json();
+                
+                // === ДІАГНОСТИКА: ВИВІД СИРОЇ ВІДПОВІДІ У КОНСОЛЬ ===
+                console.log('--- Сирі дані від API: ---');
+                console.log(data);
+                console.log('--------------------------');
+
+                let influencers;
+
+                // Спробуємо визначити, який саме об'єкт містить масив:
+                if (Array.isArray(data)) {
+                    influencers = data; // Варіант 1: Відповідь - це безпосередньо масив
+                } else if (data && Array.isArray(data.results)) {
+                    influencers = data.results; // Варіант 2: Відповідь - це об'єкт з полем 'results' (як у Django REST Framework)
+                } else if (data && data.length !== undefined) {
+                     // Додаткова перевірка: якщо це об'єкт, але він імітує масив (рідко)
+                    influencers = Object.values(data);
+                }
+                 else {
+                    // Якщо ми не можемо визначити масив, припускаємо, що це порожній результат
+                    influencers = [];
+                }
+
+                if (influencers.length === 0) {
+                    influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено (або не вдалося їх розпарсити).</p>';
+                    resultsCount.textContent = 'Знайдено 0 інфлюенсерів';
+                    return;
+                }
+
+                // Рендеринг карток
+                const cardsHtml = influencers.map(createInfluencerCard).join('');
+                influencerGrid.innerHTML = cardsHtml;
+                resultsCount.textContent = `Знайдено ${influencers.length} інфлюенсерів`;
+
+            } catch (error) {
+                console.error('Помилка завантаження інфлюенсерів:', error);
+                influencerGrid.innerHTML = `
+                    <div class="error-state" style="text-align: center; padding: 30px;">
+                        <h2>Помилка завантаження даних</h2>
+                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер. (Див. консоль для деталей)</p>
+                    </div>
+                `;
+                resultsCount.textContent = 'Помилка завантаження';
+            }
+        }
+
+        // Запускаємо завантаження даних
+        fetchInfluencers();
+        
+        // Додаємо обробник подій для кнопки "Пошук"
+        searchButton.addEventListener('click', fetchInfluencers);
+    });
+</script>
 </body>
 </html>
