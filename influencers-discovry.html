@@ -141,12 +141,19 @@
                         <p class="card-niche">Категорія: **${niche}**</p>
                         
                         <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
-                            <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
+                            // <div class="stat-item" style="flex-direction: row; gap: 10px; margin-bottom: 5px;">
+                            //     ${primarySocialIcon}
+                            //     <span class="stat-count" style="font-size: 14px; font-weight: 500;">
+                            //         ${influencer.social || 'Соціальна мережа не вказана'}
+                            //     </span>
+                            // </div>
+                              <a href="${socialLink}" target="_blank" class="stat-item" 
+                               style="flex-direction: row; gap: 10px; margin-bottom: 5px; text-decoration: none; color: inherit;">
                                 ${primarySocialIcon}
                                 <span class="stat-count" style="font-size: 14px; font-weight: 500;">
                                     ${influencer.social || 'Соціальна мережа не вказана'}
                                 </span>
-                            </div>
+                            </a>
                         </div>
 
                         <div class="card-pricing">
