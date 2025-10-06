@@ -143,35 +143,33 @@
             <a href="#">Умови користування</a>
         </div>
     </footer>
-
-    <script>
+<script>
         // 1. Функція для перетворення назви країни на ISO-код
         function getCountryCode(countryName) {
             const countryCodes = {
                 'ukraine': 'UA', 'poland': 'PL', 'germany': 'DE', 'deutscland': 'DE', 
                 'united states': 'US', 'usa': 'US', 'no entered': 'MISSING', 
             };
-            const lowerCaseCountryName = countryName ? String(countryName).toLowerCase() : '';
+            // Використовуємо .toLowerCase() та .trim() для надійності
+            const lowerCaseCountryName = countryName ? String(countryName).toLowerCase().trim() : '';
             return countryCodes[lowerCaseCountryName] || null;
         }
 
         // 2. Функція для генерації HTML-розмітки прапора
         function getFlagHtml(countryCode, countryName) {
-            if (countryCode === 'MISSING') {
-                return `<i class="fas fa-map-marker-alt"></i> <strong>Не вказано</strong>`;
-            } else if (countryCode) {
+            if (countryCode === 'MISSING' || !countryCode) {
+                return `<i class="fas fa-map-marker-alt"></i> <strong>Країна не вказана</strong>`;
+            } else {
                 // Використовуємо flagcdn.com для отримання зображення
                 const flagUrl = `https://flagcdn.com/16x12/${countryCode.toLowerCase()}.png`;
                 return `<img src="${flagUrl}" alt="${countryName} flag" class="flag-icon" /> ${countryName}`;
-            } else {
-                return `<i class="fas fa-map-marker-alt"></i> ${countryName || 'Країна не вказана'}`;
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const logoutBtn = document.getElementById('logoutBtn');
             const profileDataRaw = localStorage.getItem('userProfile');
-
+            
             // 1. Обробка виходу з системи
             logoutBtn.addEventListener('click', e => {
                 e.preventDefault();
@@ -216,14 +214,14 @@
 
             // 3. Функція для заповнення DOM
             function populateProfile(data) {
-                // Основна інформація
+                // Основна інформація (НЕ ЧІПАЄМО bio/subjfl)
                 document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
                 document.getElementById('profileName').textContent = data.name || 'N/A';
                 document.getElementById('profileEmail').textContent = data.mail || 'N/A';
-                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
+                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.'; // Залишаємо data.bio
 
-                // --- ЛОГІКА ПРАПОРА У КУТІ ---
-                const countryName = data.top_geo || 'Країна не вказана';
+                // --- ЛОГІКА ПРАПОРА У КУТІ (Виправлено на data.Country) ---
+                const countryName = data.Country || 'Країна не вказана'; // ВИКОРИСТОВУЄМО 'Country'
                 const countryCode = getCountryCode(countryName);
                 const flagBadge = document.getElementById('profileCountryBadge');
 
@@ -243,7 +241,7 @@
                 }
 
                 // Заглушки та додаткові поля
-                document.getElementById('nicheValue').textContent = data.niche || data.category || 'Lifestyle (Дефолт)';
+                document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
                 document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
                 document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
 
@@ -255,8 +253,8 @@
                 // DEMOGRAPHICS (нормалізовано для відображення N/A)
                 document.getElementById('ageDemographics').textContent = data.age_demographics || 'N/A';
                 document.getElementById('genderDemographics').textContent = data.gender_demographics || 'N/A';
-                document.getElementById('geoTop').textContent = data.top_geo || 'N/A';
-
+                document.getElementById('geoTop').textContent = data.top_geo || 'N/A'; 
+                
                 // PRICING (нормалізовано для відображення N/A)
                 document.getElementById('pricePost').textContent = data.price_post || '(Запит)';
                 document.getElementById('priceStories').textContent = data.price_stories || '(Запит)';
