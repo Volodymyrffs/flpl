@@ -837,12 +837,16 @@ body {
     color: #212529;
 }
 
-/* Переконайтеся, що основний контент не накладається, якщо це необхідно */
-/* .profile-top-content {
-    margin-right: 50px; * Можна додати відступ, якщо кнопка знаходиться над текстом *
-} */
+.edit-profile-btn, 
+.edit-profile-btn i.fa-pen {
+    /* Використовуйте бажаний колір (наприклад, #495057 або #2c3e50) */
+    color: var(--text-dark) !important; 
+}
 
-
+/* Якщо .edit-profile-btn є посиланням (a), скидаємо синій фон при наведенні */
+.edit-profile-btn:hover {
+    color: var(--text-dark) !important;
+}
 
 
 
