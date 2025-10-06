@@ -832,10 +832,10 @@ body {
     z-index: 10;
 }
 
-.edit-profile-btn:hover {
+/* .edit-profile-btn:hover {
     background-color: #adb5bd; /* Темніший фон при наведенні */
     color: #212529;
-}
+} */
 
 .edit-profile-btn, 
 .edit-profile-btn i.fa-pen {
@@ -847,6 +847,7 @@ body {
 .edit-profile-btn:hover {
     color: var(--text-dark) !important;
 }
+
 
 
 
