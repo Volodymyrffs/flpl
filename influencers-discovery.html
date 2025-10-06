@@ -120,7 +120,31 @@
             if (lowerValue.includes('inst') || lowerValue.includes('instagram')) return '<i class="fab fa-instagram" style="color: #E4405F;"></i>';
             return '<i class="fas fa-globe"></i>'; 
         }
-        
+        function getCountryCode(countryName) {
+    // Дуже спрощена мапа. В реальному проекті використовуйте повну бібліотеку
+    // або API для конвертації назв країн в коди.
+    // Ця мапа охоплює лише кілька поширених країн.
+    const countryCodes = {
+        'ukraine': 'UA',
+        'united states': 'US',
+        'usa': 'US',
+        'canada': 'CA',
+        'germany': 'DE',
+        'france': 'FR',
+        'spain': 'ES',
+        'italy': 'IT',
+        'poland': 'PL',
+        'united kingdom': 'GB',
+        'australia': 'AU',
+        'japan': 'JP',
+        'china': 'CN',
+        'india': 'IN',
+        // Додайте більше країн за потреби
+    };
+    // Переводимо назву в нижній регістр для уніфікації
+    const lowerCaseCountryName = countryName ? countryName.toLowerCase() : '';
+    return countryCodes[lowerCaseCountryName] || null; // Повертаємо код або null
+}
         function createInfluencerCard(influencer) {
             const photoUrl = DEFAULT_PHOTO_URL;
             // Перевіряємо, чи існує ID, інакше використовуємо заглушку
@@ -138,7 +162,12 @@
                     <div class="card-info">
                         <h3 class="card-name">${name} ${isVerified}</h3>
                         <p class="card-niche">Категорія: ${niche}</p>
-                          <p class="card-country"><i class="fas fa-map-marker-alt"></i> Країна: <strong>${country}</strong></p>
+                          ${countryCode 
+                            ? `<p class="card-country"><img src="https://flagcdn.com/16x12/${countryCode.toLowerCase()}.png" alt="${countryName} flag" class="flag-icon" /> ${countryName}</p>` 
+                            : `<p class="card-country"><i class="fas fa-map-marker-alt"></i> ${countryName || 'Країна не вказана'}</p>`
+                        }
+                          const countryName = influencer.country || ''; 
+                          const countryCode = getCountryCode(countryName);
                         <div class="card-stats" style="grid-template-columns: 1fr; border-top: none;">
                               <a href="${influencer.social}" target="_blank" class="stat-item" 
                                style="flex-direction: row; gap: 10px; margin-bottom: 5px; text-decoration: none; color: inherit;">
