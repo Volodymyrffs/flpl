@@ -101,7 +101,7 @@
         // Отримання елементів фільтрів
         const categoryFilter = document.getElementById('category'); 
         const countryInput = document.getElementById('country'); 
-        const followersFilter = document.getElementById('followers'); // Додаємо фільтр підписників
+        const followersFilter = document.getElementById('followers'); 
 
         // Глобальна змінна для зберігання всіх даних
         let allInfluencers = []; 
@@ -121,7 +121,6 @@
 
         // 2. ДОПОМІЖНІ ФУНКЦІЇ (НЕ ЗМІНЮЄМО)
         function formatCount(count) { 
-            // Тут має бути функція форматування, але поки залишаємо N/A
             return 'N/A'; 
         }
         
@@ -154,7 +153,7 @@
             const price = 'Запит';
             const isVerified = ''; 
 
-            const countryName = influencer.Country || ''; 
+            const countryName = influencer.Country || influencer.country || ''; 
             const countryCode = getCountryCode(countryName);
             
             let socialLink = influencer.social || '#'; 
@@ -197,7 +196,6 @@
 
         /**
          * Рендерить картки інфлюенсерів на сторінці
-         * @param {Array} influencers - масив профілів для відображення
          */
         function renderInfluencers(influencers) {
             if (influencers.length === 0) {
@@ -235,19 +233,14 @@
             // Фільтрація за КРАЇНОЮ
             if (inputCountry) {
                 currentInfluencers = currentInfluencers.filter(influencer => {
-                    const country = (influencer.Country || '').toLowerCase();
-                    // Перевіряємо, чи введена країна є частиною назви країни в API (для гнучкості)
+                    const country = (influencer.Country || influencer.country || '').toLowerCase();
                     return country.includes(inputCountry); 
                 });
             }
             
-            // Фільтрація за ПІДПИСНИКАМИ (якщо є поле followers у API)
-            // Примітка: Оскільки у вашому API немає поля для кількості підписників,
-            // ця логіка є заглушкою і вимагає реального поля у відповіді API.
+            // Фільтрація за ПІДПИСНИКАМИ (ЗАГЛУШКА)
             if (selectedFollowers) {
-                 // Тут має бути логіка парсингу та порівняння числа підписників.
-                 // Залишаємо заглушкою, бо у вас немає цього поля у API.
-                 // console.warn('Фільтр підписників поки не працює, бо API не надає даних followers.');
+                // ... логіка для підписників ...
             }
 
             filteredInfluencers = currentInfluencers;
@@ -261,7 +254,6 @@
             influencerGrid.innerHTML = '<h2>Завантаження даних...</h2>';
             resultsCount.textContent = 'Завантаження всіх даних...';
 
-            // Ми більше не додаємо параметри фільтрації!
             try {
                 const response = await fetch(API_URL, { 
                     method: 'GET',
@@ -285,7 +277,7 @@
                 const data = await response.json();
                 
                 let fetchedInfluencers;
-                // Парсинг даних: шукаємо масив у властивості 'influencers'
+                // Парсинг даних
                 if (data && Array.isArray(data.influencers)) {
                     fetchedInfluencers = data.influencers; 
                 } else if (Array.isArray(data)) {
@@ -297,7 +289,7 @@
                 // Зберігаємо всі завантажені дані глобально
                 allInfluencers = fetchedInfluencers; 
                 
-                // Застосовуємо фільтри (навіть якщо вони порожні)
+                // Застосовуємо фільтри (щоб відобразити список за замовчуванням)
                 applyFilters();
 
             } catch (error) {
@@ -315,14 +307,10 @@
         // Запускаємо завантаження даних при першому завантаженні сторінки
         fetchInfluencers();
         
-        // Додаємо обробник подій для кнопки "Пошук"
-        // ТЕПЕР ВОНА ВИКЛИКАЄ КЛІЄНТСЬКУ ФІЛЬТРАЦІЮ
+        // ЄДИНА ТОЧКА ВХОДУ ДЛЯ ФІЛЬТРАЦІЇ: КНОПКА "ПОШУК"
         searchButton.addEventListener('click', applyFilters);
 
-        // Додаємо обробники подій для автоматичного оновлення фільтрів
-        categoryFilter.addEventListener('change', applyFilters);
-        followersFilter.addEventListener('change', applyFilters);
-        // Можна також додати debounce для countryInput, але для простоти залишаємо лише кнопку
+        // Обробники 'change' ВИДАЛЕНО, щоб фільтрація спрацьовувала лише на 'Пошук'
     });
 </script>
 </body>
