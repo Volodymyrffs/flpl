@@ -805,37 +805,43 @@ body {
 }
 
 
+/* Додайте/оновіть ці стилі у вашому styles.css */
 
 /* 1. Встановлюємо батьківський елемент для позиціонування */
-.influencer-profile-card {
-    position: relative; /* Це дозволить абсолютно позиціонувати кнопку всередині */
-    /* ... інші стилі influencer-profile-card ... */
+.profile-top-section {
+    position: relative; /* Критично важливо, щоб edit-profile-btn позиціонувався відносно нього */
+    padding: 20px; /* Зберегти відступи */
+    /* ... інші стилі profile-top-section ... */
 }
 
 /* 2. Стилі для самої кнопки редагування */
 .edit-profile-btn {
     position: absolute;
-    top: 20px;       /* Невеликий відступ від верхнього краю */
-    right: 20px;     /* Невеликий відступ від правого краю */
-    padding: 10px;
-    background-color: #f0f0f0; /* Легкий фон, щоб виділити */
-    color: #333;
-    border-radius: 50%; /* Кругла форма */
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 20px;       /* Відступ від верхнього краю секції */
+    right: 20px;     /* Відступ від правого краю секції */
+    
+    /* Візуальні стилі, як було запропоновано раніше */
+    padding: 8px 12px; /* Трохи більший розмір для зручності натискання */
+    background-color: #e9ecef; /* Світлий фон */
+    color: #495057; /* Темний текст/іконка */
+    border-radius: 6px; /* Невелике заокруглення */
     font-size: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s;
-    z-index: 10; /* Переконайтеся, що вона поверх інших елементів */
+    text-decoration: none;
+    line-height: 1; /* Для коректного центрування іконки */
+    transition: background-color 0.2s, color 0.2s;
+    z-index: 10;
 }
 
 .edit-profile-btn:hover {
-    background-color: #ddd;
-    color: var(--primary-color, #007bff); /* Зміна кольору при наведенні */
+    background-color: #adb5bd; /* Темніший фон при наведенні */
+    color: #212529;
 }
+
+/* Переконайтеся, що основний контент не накладається, якщо це необхідно */
+/* .profile-top-content {
+    margin-right: 50px; * Можна додати відступ, якщо кнопка знаходиться над текстом *
+} */
+
 
 
 
