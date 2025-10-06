@@ -24,6 +24,7 @@
         <div class="influencer-profile-card">
 
             <div class="profile-top-section">
+                 <div id="profileCountryBadge"></div>
                 <div class="profile-top-content">
                     <img class="profile-photo" id="profilePhoto" src="./defaultava.png" alt="Фото профілю">
                     <div class="profile-main-info">
@@ -207,10 +208,68 @@
                 document.getElementById('priceReel').textContent = data.price_reel || '(Запит)';
                 document.getElementById('priceIntegration').textContent = data.price_integration || 'Custom';
             }
+                function getCountryCode(countryName) {
+            const countryCodes = {
+                'ukraine': 'UA', 'poland': 'PL', 'germany': 'DE', 'deutscland': 'DE', 
+                'united states': 'US', 'usa': 'US', 'no entered': 'MISSING', 
+                // Додайте більше країн за потреби
+            };
+            const lowerCaseCountryName = countryName ? String(countryName).toLowerCase() : '';
+            return countryCodes[lowerCaseCountryName] || null; // Повертає null, якщо не знайдено
+        }
+
+        // 2. Функція для генерації HTML-розмітки прапора
+        function getFlagHtml(countryCode, countryName) {
+            if (countryCode === 'MISSING') {
+                return `<i class="fas fa-map-marker-alt"></i> <strong>Не вказано</strong>`;
+            } else if (countryCode) {
+                const flagUrl = `https://flagcdn.com/16x12/${countryCode.toLowerCase()}.png`;
+                return `<img src="${flagUrl}" alt="${countryName} flag" class="flag-icon" /> ${countryName}`;
+            } else {
+                return `<i class="fas fa-map-marker-alt"></i> ${countryName || 'Країна не вказана'}`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            const profileDataRaw = localStorage.getItem('userProfile');
+
+            // ... (обробка виходу та перевірка даних) ...
+            
+            let profile;
+            try {
+                // ... (парсинг JSON) ...
+            } catch (err) {
+                // ... (обробка помилок JSON) ...
+                return;
+            }
+
+            // 3. Функція для заповнення DOM
+            function populateProfile(data) {
+                // ... (заповнення основної інформації) ...
+                
+                // --- ЛОГІКА ПРАПОРА У КУТІ ---
+                // Використовуємо поле top_geo як назву країни для прикладу
+                const countryName = data.top_geo || 'Країна не вказана';
+                const countryCode = getCountryCode(countryName);
+                const flagBadge = document.getElementById('profileCountryBadge');
+
+                flagBadge.innerHTML = getFlagHtml(countryCode, countryName);
+                
+                // --- КІНЕЦЬ ЛОГІКИ ПРАПОРА ---
+
+                // ... (заповнення решти даних) ...
+            }
+            
             
             // Запуск заповнення
             populateProfile(profile);
         });
+
+
+
+
+        
     </script>
 </body>
 </html>
