@@ -806,6 +806,36 @@ body {
 
 
 
+/* 1. Встановлюємо батьківський елемент для позиціонування */
+.influencer-profile-card {
+    position: relative; /* Це дозволить абсолютно позиціонувати кнопку всередині */
+    /* ... інші стилі influencer-profile-card ... */
+}
+
+/* 2. Стилі для самої кнопки редагування */
+.edit-profile-btn {
+    position: absolute;
+    top: 20px;       /* Невеликий відступ від верхнього краю */
+    right: 20px;     /* Невеликий відступ від правого краю */
+    padding: 10px;
+    background-color: #f0f0f0; /* Легкий фон, щоб виділити */
+    color: #333;
+    border-radius: 50%; /* Кругла форма */
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+    z-index: 10; /* Переконайтеся, що вона поверх інших елементів */
+}
+
+.edit-profile-btn:hover {
+    background-color: #ddd;
+    color: var(--primary-color, #007bff); /* Зміна кольору при наведенні */
+}
 
 
 
