@@ -138,6 +138,8 @@
                 'japan': 'JP',
                 'china': 'CN',
                 'india': 'IN',
+                'poland': 'PL', 
+                 
                 // Додайте більше країн за потреби
             };
             // Переводимо назву в нижній регістр для уніфікації
@@ -157,7 +159,7 @@
             const isVerified = ''; 
 
             // === ВИПРАВЛЕННЯ: Оголошуємо змінні countryName та countryCode тут ===
-            const countryName = influencer.country || ''; 
+            const countryName = influencer.Country || ''; 
             const countryCode = getCountryCode(countryName);
             // =======================================================================
             
