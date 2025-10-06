@@ -100,7 +100,12 @@
         
         // Отримання елементів фільтрів
         const categoryFilter = document.getElementById('category'); 
-        const countryInput = document.getElementById('country'); // <--- Поле вводу країни
+        const countryInput = document.getElementById('country'); 
+        const followersFilter = document.getElementById('followers'); // Додаємо фільтр підписників
+
+        // Глобальна змінна для зберігання всіх даних
+        let allInfluencers = []; 
+        let filteredInfluencers = [];
 
         // 1. ПЕРЕВІРКА АВТОРИЗАЦІЇ (НЕ ЗМІНЮЄМО)
         if (!storedToken) {
@@ -114,8 +119,11 @@
             return; 
         }
 
-        // 2. ДОПОМІЖНІ ФУНКЦІЇ (ОНОВЛЕНО ЛОГІКУ КРАЇН ЗГІДНО З ПОПЕРЕДНІМИ ДИСКУСІЯМИ)
-        function formatCount(count) { return 'N/A'; }
+        // 2. ДОПОМІЖНІ ФУНКЦІЇ (НЕ ЗМІНЮЄМО)
+        function formatCount(count) { 
+            // Тут має бути функція форматування, але поки залишаємо N/A
+            return 'N/A'; 
+        }
         
         function getSocialIcon(socialValue) {
             if (!socialValue) return '<i class="fas fa-globe"></i>';
@@ -129,14 +137,8 @@
 
         function getCountryCode(countryName) {
             const countryCodes = {
-                // Додані/скориговані країни згідно з прикладом API
-                'ukraine': 'UA',
-                'poland': 'PL',
-                'deutscland': 'DE', // Для обробки виводу API "Deutscland"
-                'united states': 'US',
-                'usa': 'US',
-                'germany': 'DE', 
-                'no entered': 'MISSING', // Маркер для виведення "Не вказано"
+                'ukraine': 'UA', 'poland': 'PL', 'deutscland': 'DE', 'united states': 'US',
+                'usa': 'US', 'germany': 'DE', 'no entered': 'MISSING', 
             };
             const lowerCaseCountryName = countryName ? countryName.toLowerCase() : '';
             return countryCodes[lowerCaseCountryName] || null; 
@@ -152,11 +154,9 @@
             const price = 'Запит';
             const isVerified = ''; 
 
-            // Використовуємо Country з великої літери
             const countryName = influencer.Country || ''; 
             const countryCode = getCountryCode(countryName);
             
-            // Логіка виправлення URL
             let socialLink = influencer.social || '#'; 
             if (socialLink.startsWith('https:/') && !socialLink.startsWith('https://')) {
                 socialLink = socialLink.replace('https:/', 'https://');
@@ -195,38 +195,75 @@
             `;
         }
 
-        // 3. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ДАНИХ (РЕАЛІЗАЦІЯ ФІЛЬТРАЦІЇ)
+        /**
+         * Рендерить картки інфлюенсерів на сторінці
+         * @param {Array} influencers - масив профілів для відображення
+         */
+        function renderInfluencers(influencers) {
+            if (influencers.length === 0) {
+                influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено за заданими фільтрами.</p>';
+                resultsCount.textContent = 'Знайдено 0 інфлюенсерів';
+                return;
+            }
+
+            const cardsHtml = influencers.map(createInfluencerCard).join('');
+            influencerGrid.innerHTML = cardsHtml;
+            resultsCount.textContent = `Знайдено ${influencers.length} інфлюенсерів`;
+        }
+
+
+        /**
+         * 3. ФУНКЦІЯ ФІЛЬТРАЦІЇ (КЛІЄНТСЬКА)
+         */
+        function applyFilters() {
+            resultsCount.textContent = 'Фільтрація...';
+            
+            let currentInfluencers = allInfluencers;
+
+            const selectedCategory = categoryFilter.value;
+            const inputCountry = countryInput.value.trim().toLowerCase(); 
+            const selectedFollowers = followersFilter.value;
+
+            // Фільтрація за КАТЕГОРІЄЮ
+            if (selectedCategory) {
+                currentInfluencers = currentInfluencers.filter(influencer => {
+                    const niche = (influencer.category || influencer.niche || '').toLowerCase();
+                    return niche === selectedCategory.toLowerCase();
+                });
+            }
+
+            // Фільтрація за КРАЇНОЮ
+            if (inputCountry) {
+                currentInfluencers = currentInfluencers.filter(influencer => {
+                    const country = (influencer.Country || '').toLowerCase();
+                    // Перевіряємо, чи введена країна є частиною назви країни в API (для гнучкості)
+                    return country.includes(inputCountry); 
+                });
+            }
+            
+            // Фільтрація за ПІДПИСНИКАМИ (якщо є поле followers у API)
+            // Примітка: Оскільки у вашому API немає поля для кількості підписників,
+            // ця логіка є заглушкою і вимагає реального поля у відповіді API.
+            if (selectedFollowers) {
+                 // Тут має бути логіка парсингу та порівняння числа підписників.
+                 // Залишаємо заглушкою, бо у вас немає цього поля у API.
+                 // console.warn('Фільтр підписників поки не працює, бо API не надає даних followers.');
+            }
+
+            filteredInfluencers = currentInfluencers;
+            renderInfluencers(filteredInfluencers);
+        }
+
+        /**
+         * 4. ФУНКЦІЯ ЗАВАНТАЖЕННЯ ВСІХ ДАНИХ (ОДИН РАЗ)
+         */
         async function fetchInfluencers() {
             influencerGrid.innerHTML = '<h2>Завантаження даних...</h2>';
-            resultsCount.textContent = 'Завантаження...';
+            resultsCount.textContent = 'Завантаження всіх даних...';
 
-            // 1. ЗБІР ПАРАМЕТРІВ ФІЛЬТРАЦІЇ
-            const params = new URLSearchParams();
-            const selectedCategory = categoryFilter.value;
-            // === КЛЮЧОВЕ ОНОВЛЕННЯ: Отримуємо значення з поля країни ===
-            const inputCountry = countryInput.value.trim(); 
-            // ==========================================================
-
-            // Фільтр за категорією
-            if (selectedCategory) {
-                // Припускаємо, що API приймає 'category'
-                params.append('category', selectedCategory); 
-            }
-
-            // Фільтр за країною
-            if (inputCountry) {
-                // Припускаємо, що API приймає параметр 'country'
-                // Важливо: ми надсилаємо текстове значення, яке ввів користувач (наприклад, "Ukraine")
-                params.append('country', inputCountry); 
-            }
-
-            // 2. ФОРМУВАННЯ КІНЦЕВОГО URL
-            const finalUrl = `${API_URL}${params.toString() ? '?' + params.toString() : ''}`;
-            
-            console.log('Fetching URL:', finalUrl); // Перевірка відправленого URL
-
+            // Ми більше не додаємо параметри фільтрації!
             try {
-                const response = await fetch(finalUrl, { 
+                const response = await fetch(API_URL, { 
                     method: 'GET',
                     headers: {
                         'Authorization': `Token ${storedToken}`, 
@@ -235,6 +272,7 @@
                 });
 
                 if (!response.ok) {
+                    // Обробка помилок авторизації
                     if (response.status === 401 || response.status === 403) {
                         localStorage.removeItem('userToken');
                         alert('Ваша сесія закінчилася або токен недійсний. Будь ласка, увійдіть знову.');
@@ -246,43 +284,45 @@
 
                 const data = await response.json();
                 
-                let influencers;
+                let fetchedInfluencers;
+                // Парсинг даних: шукаємо масив у властивості 'influencers'
                 if (data && Array.isArray(data.influencers)) {
-                    influencers = data.influencers; 
+                    fetchedInfluencers = data.influencers; 
                 } else if (Array.isArray(data)) {
-                    influencers = data; 
+                    fetchedInfluencers = data; 
                 } else {
-                    influencers = [];
+                    fetchedInfluencers = [];
                 }
-
-                if (influencers.length === 0) {
-                    influencerGrid.innerHTML = '<p class="no-results" style="text-align: center;">На жаль, інфлюенсерів не знайдено.</p>';
-                    resultsCount.textContent = 'Знайдено 0 інфлюенсерів';
-                    return;
-                }
-
-                // Рендеринг карток
-                const cardsHtml = influencers.map(createInfluencerCard).join('');
-                influencerGrid.innerHTML = cardsHtml;
-                resultsCount.textContent = `Знайдено ${influencers.length} інфлюенсерів`;
+                
+                // Зберігаємо всі завантажені дані глобально
+                allInfluencers = fetchedInfluencers; 
+                
+                // Застосовуємо фільтри (навіть якщо вони порожні)
+                applyFilters();
 
             } catch (error) {
                 console.error('Помилка завантаження інфлюенсерів:', error);
                 influencerGrid.innerHTML = `
                     <div class="error-state" style="text-align: center; padding: 30px;">
                         <h2>Помилка завантаження даних</h2>
-                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер.</p>
+                        <p>Не вдалося отримати дані з API. Перевірте мережу або API-сервер. (${error.message})</p>
                     </div>
                 `;
                 resultsCount.textContent = 'Помилка завантаження';
             }
         }
 
-        // Запускаємо завантаження даних
+        // Запускаємо завантаження даних при першому завантаженні сторінки
         fetchInfluencers();
         
         // Додаємо обробник подій для кнопки "Пошук"
-        searchButton.addEventListener('click', fetchInfluencers);
+        // ТЕПЕР ВОНА ВИКЛИКАЄ КЛІЄНТСЬКУ ФІЛЬТРАЦІЮ
+        searchButton.addEventListener('click', applyFilters);
+
+        // Додаємо обробники подій для автоматичного оновлення фільтрів
+        categoryFilter.addEventListener('change', applyFilters);
+        followersFilter.addEventListener('change', applyFilters);
+        // Можна також додати debounce для countryInput, але для простоти залишаємо лише кнопку
     });
 </script>
 </body>
