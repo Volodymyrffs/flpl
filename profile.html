@@ -297,9 +297,17 @@
                 } else {
                     socialLink.style.display = 'none';
                 }
-
+                const categoryEl = document.getElementById('nicheValue');
+                if (data.category && data.category !== 'null') {
+                   categoryEl.textContent = data.category;
+                     } else if (data.niche && data.niche !== 'null') {
+                        categoryEl.textContent = data.niche;
+                    } else {
+                         categoryEl.textContent = 'Lifestyle (Дефолт)';
+                    }
+ 
                 // Заглушки та додаткові поля
-                document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
+                // document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
                 document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
                 document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
 
