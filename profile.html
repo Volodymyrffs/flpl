@@ -48,7 +48,7 @@
 
             <div class="profile-top-section">
                 <a href="./edit-profile.html" class="edit-profile-btn" title="Редагувати профіль">
-            <i class="fas fa-pencil-alt"></i>
+                    <i class="fas fa-pencil-alt"></i>
                 </a>
                 <div id="profileCountryBadge"></div>
 
@@ -56,41 +56,34 @@
                     <img class="profile-photo" id="profilePhoto" src="./defaultava.png" alt="Фото профілю">
                     <div class="profile-main-info">
                         <h1><span id="profileName">Завантаження...</span> <i class="fas fa-check-circle verified-small"></i></h1>
-                        <p id="profileСategory">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
+                        <p id="profileNiche">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
                     </div>
                 </div>
             </div>
 
             <div class="profile-left-column">
 
-             <div class="profile-left-column">
-    
-    <div class="section-box" style="position: relative;"> 
-        <div class="detail-item">
-       
-        </div>
-        <h3>Дані профілю</h3> 
+               <div class="section-box" style="position: relative;"> 
+                    <h3>Дані профілю</h3> 
 
-        <div class="detail-item">
-            <strong>E-mail:</strong>
-            <span id="profileEmail">Завантаження...</span>
-        </div>
-        
-        <div class="detail-item">
-            <strong>Телефон:</strong>
-            <span>(N/A)</span>
-        </div>
-        
-        <div class="detail-item privacy-note" style="margin-top: 15px; font-size: 12px; color: var(--text-light);">
-            <span>(Відкриті для перегляду і редагування тільки вам) 
-             <a href="./edit-profile.html" title="Редагувати профіль">
-            Оновити дані
-        </a></span>
-        </div>
-       
-        
-    </div>
-    </div>
+                    <div class="detail-item">
+                        <strong>E-mail:</strong>
+                        <span id="profileEmail">Завантаження...</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <strong>Телефон:</strong>
+                        <span>(N/A)</span>
+                    </div>
+                    
+                    <div class="detail-item privacy-note" style="margin-top: 15px; font-size: 12px; color: var(--text-light);">
+                        <span>(Відкриті для перегляду і редагування тільки вам) 
+                        <a href="./edit-profile.html" title="Редагувати профіль">
+                            Оновити дані
+                        </a></span>
+                    </div>
+                </div>
+            
                 <div class="section-box">
                     <h3>Соц мережі</h3>
                     <div class="followers-list">
@@ -112,18 +105,18 @@
                     </div>
                 </div>
 
-<div class="demographics-box section-box">
-    <h3>Активність на порталі</h3>
-    <div class="detail-item">
-        <strong>Позиція в рейтингу</strong> <span id="ageDemographics">N/A</span>
-    </div>
-    
-    <div class="detail-item collaboration-item" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; display: flex; align-items: center;">
-        <i class="fas fa-handshake" style="margin-right: 8px; color: #007bff; font-size: 1.1em;"></i> 
+                <div class="demographics-box section-box">
+                    <h3>Активність на порталі</h3>
+                    <div class="detail-item">
+                        <strong>Позиція в рейтингу</strong> <span id="ageDemographics">N/A</span>
+                    </div>
+                    
+                    <div class="detail-item collaboration-item" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-handshake" style="margin-right: 8px; color: #007bff; font-size: 1.1em;"></i> 
 
-        <span id="collaborationsCount">0</span> 
-    </div>
-    </div>
+                        <span id="collaborationsCount">0</span> 
+                    </div>
+                </div>
             </div>
 
             <div class="profile-right-column">
@@ -165,7 +158,6 @@
                 'ukraine': 'UA', 'poland': 'PL', 'germany': 'DE', 'deutscland': 'DE', 
                 'united states': 'US', 'usa': 'US', 'no entered': 'MISSING', 
             };
-            // Використовуємо .toLowerCase() та .trim() для надійності
             const lowerCaseCountryName = countryName ? String(countryName).toLowerCase().trim() : '';
             return countryCodes[lowerCaseCountryName] || null;
         }
@@ -175,7 +167,6 @@
             if (countryCode === 'MISSING' || !countryCode) {
                 return `<i class="fas fa-map-marker-alt"></i> <strong>Країна не вказана</strong>`;
             } else {
-                // Використовуємо flagcdn.com для отримання зображення
                 const flagUrl = `https://flagcdn.com/16x12/${countryCode.toLowerCase()}.png`;
                 return `<img src="${flagUrl}" alt="${countryName} flag" class="flag-icon" /> ${countryName}`;
             }
@@ -203,11 +194,8 @@
 
             let profile;
             try {
-                // ПАРСИНГ З ДЕБАГОМ
-                console.log("DEBUG: Спроба парсингу userProfile. Сирий рядок:", profileDataRaw);
                 profile = JSON.parse(profileDataRaw);
                 
-                // Перевірка, що це профіль інфлюенсера
                 if (!profile || profile.type !== 'influencer') {
                     console.error("Помилка: Невірний тип профілю або порожній об'єкт.", profile);
                     localStorage.removeItem('userToken');
@@ -217,9 +205,7 @@
                     return;
                 }
             } catch (err) {
-                // АВТОМАТИЧНЕ ОЧИЩЕННЯ ПОШКОДЖЕНОГО JSON
                 console.error("FATAL ERROR: Помилка парсингу даних профілю:", err);
-                console.error("НЕКОРЕКТНИЙ РЯДОК JSON (очищено):", profileDataRaw);
                 localStorage.removeItem('userProfile');
                 localStorage.removeItem('userToken');
                 alert('Помилка даних профілю. Будь ласка, увійдіть знову. (Некоректний формат JSON)');
@@ -229,99 +215,82 @@
 
             // 3. Функція для заповнення DOM
             function populateProfile(data) {
-                // Основна інформація (НЕ ЧІПАЄМО bio/subjfl)
+                // Основна інформація
                 document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
                 document.getElementById('profileName').textContent = data.name || 'N/A';
                 document.getElementById('profileEmail').textContent = data.mail || 'N/A';
-                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.'; // Залишаємо data.bio
+                document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.';
 
-                // --- ЛОГІКА ПРАПОРА У КУТІ (Виправлено на data.Country) ---
-                const countryName = data.Country || 'Країна не вказана'; // ВИКОРИСТОВУЄМО 'Country'
+                // --- ЛОГІКА КАТЕГОРІЇ (ФІКС) ---
+                const nicheValueEl = document.getElementById('nicheValue');
+                const categoryValue = data.category || data.niche || 'Lifestyle (Дефолт)';
+                nicheValueEl.textContent = categoryValue;
+                // --- КІНЕЦЬ ЛОГІКИ КАТЕГОРІЇ ---
+
+                // --- ЛОГІКА ПРАПОРА У КУТІ ---
+                const countryName = data.Country || 'Країна не вказана';
                 const countryCode = getCountryCode(countryName);
                 const flagBadge = document.getElementById('profileCountryBadge');
-
                 flagBadge.innerHTML = getFlagHtml(countryCode, countryName);
-                // --- КІНЕЦЬ ЛОГІКИ ПРАПОРА ---
-
                 
-                  if (data.profileImg && data.profileImg !== 'null') {
-                let avatarUrl = data.profileImg.startsWith('http')
-                    ? data.profileImg
-                    : `http://185.12.143.193:8080${data.profileImg}`;
-                document.getElementById('profilePhoto').src = avatarUrl;
-            } else {
-                document.getElementById('profilePhoto').src = './defaultava.png';
-            }
-            // --- Poster як фон для profile-top-content ---
-            // const topContent = document.querySelector('.profile-top-content');
-            // if (data.profileposter && data.profileposter !== 'null') {
-            //     let posterUrl = data.profileposter.startsWith('http')
-            //         ? data.profileposter
-            //         : `http://185.12.143.193:8080${data.profileposter}`;
-            //     topContent.style.backgroundImage = `url('${posterUrl}')`;
-            //     topContent.style.backgroundSize = 'cover';
-            //     topContent.style.backgroundPosition = 'center';
-            //     topContent.style.backgroundRepeat = 'no-repeat';
-            // } else {
-            //     topContent.style.backgroundImage = ''; // дефолтний фон
-            // }
-
+                // --- АВАТАР ---
+                if (data.profileImg && data.profileImg !== 'null') {
+                    let avatarUrl = data.profileImg.startsWith('http')
+                        ? data.profileImg
+                        : `http://185.12.143.193:8080${data.profileImg}`;
+                    document.getElementById('profilePhoto').src = avatarUrl;
+                } else {
+                    document.getElementById('profilePhoto').src = './defaultava.png';
+                }
+                
+                // --- Poster як фон для profile-top-content (З ГРАДІЄНТОМ) ---
                 const topContent = document.querySelector('.profile-top-content');
-            if (data.profileposter && data.profileposter !== 'null') {
-                let posterUrl = data.profileposter.startsWith('http')
-                    ? data.profileposter
-                    : `http://185.12.143.193:8080${data.profileposter}`;
-                
-                // ВАЖЛИВО: Використовуємо лінійний градієнт + URL для оверлею
-                topContent.style.backgroundImage = `
-                    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), 
-                    url('${posterUrl}')
-                `;
-                topContent.style.backgroundSize = 'cover';
-                topContent.style.backgroundPosition = 'center';
-                topContent.style.backgroundRepeat = 'no-repeat';
-            } else {
-                // Якщо постера немає, встановлюємо дефолтний градієнт
-                topContent.style.backgroundImage = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'; 
-                topContent.style.backgroundSize = 'auto';
-            }
+                if (data.profileposter && data.profileposter !== 'null') {
+                    let posterUrl = data.profileposter.startsWith('http')
+                        ? data.profileposter
+                        : `http://185.12.143.193:8080${data.profileposter}`;
+                    
+                    // ВАЖЛИВО: Використовуємо лінійний градієнт + URL для оверлею
+                    topContent.style.backgroundImage = `
+                        linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), 
+                        url('${posterUrl}')
+                    `;
+                    topContent.style.backgroundSize = 'cover';
+                    topContent.style.backgroundPosition = 'center';
+                    topContent.style.backgroundRepeat = 'no-repeat';
+                } else {
+                    // Якщо постера немає, встановлюємо дефолтний градієнт
+                    topContent.style.backgroundImage = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'; 
+                    topContent.style.backgroundSize = 'auto';
+                }
 
                 // Посилання на соціальну мережу
                 const socialLink = document.getElementById('socialLink');
                 const socialURL = data.social || data.website;
                 
                 if (socialURL && socialURL !== 'null') {
-                    socialLink.href = socialURL;
-                    socialLink.style.display = 'block';
-                    socialLink.textContent = 'Перейти до профілю';
-                } else {
-                    socialLink.style.display = 'none';
-                }
-                const categoryEl = document.getElementById('nicheValue');
-                if (data.category && data.category !== 'null') {
-                   categoryEl.textContent = data.category;
-                     } else if (data.niche && data.niche !== 'null') {
-                        categoryEl.textContent = data.niche;
-                    } else {
-                         categoryEl.textContent = 'Lifestyle (Дефолт)';
+                    // Cтворення кнопки "Перейти до профілю" в блоці "Дані профілю"
+                    const profileDataBox = document.querySelector('.profile-left-column .section-box');
+                    if (profileDataBox) {
+                        const linkHtml = `<a href="${socialURL}" class="cta-button secondary" style="margin-top: 15px;" target="_blank">Перейти до профілю</a>`;
+                        profileDataBox.insertAdjacentHTML('beforeend', linkHtml);
                     }
- 
-                // Заглушки та додаткові поля
-                // document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
+                }
+
                 document.getElementById('profilePhoto').alt = data.name || 'Фото профілю';
                 document.getElementById('contactButton').href = `mailto:${data.mail || ''}`;
 
-                // STATS (нормалізовано для відображення N/A)
+                // STATS
                 document.getElementById('instaCount').textContent = data.instagram_followers || 'N/A';
                 document.getElementById('tiktokCount').textContent = data.tiktok_followers || 'N/A';
                 document.getElementById('youtubeCount').textContent = data.youtube_subscribers || 'N/A';
                 
-                // DEMOGRAPHICS (нормалізовано для відображення N/A)
+                // DEMOGRAPHICS
                 document.getElementById('ageDemographics').textContent = data.age_demographics || 'N/A';
                 document.getElementById('genderDemographics').textContent = data.gender_demographics || 'N/A';
                 document.getElementById('geoTop').textContent = data.top_geo || 'N/A'; 
                 
-                // PRICING (нормалізовано для відображення N/A)
+                // PRICING
                 document.getElementById('pricePost').textContent = data.price_post || '(Запит)';
                 document.getElementById('priceStories').textContent = data.price_stories || '(Запит)';
                 document.getElementById('priceReel').textContent = data.price_reel || '(Запит)';
@@ -332,6 +301,7 @@
             populateProfile(profile);
         });
     </script>
+</body>
 </body>
 </html>
 
