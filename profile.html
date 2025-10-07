@@ -56,9 +56,7 @@
                     <img class="profile-photo" id="profilePhoto" src="./defaultava.png" alt="Фото профілю">
                     <div class="profile-main-info">
                         <h1><span id="profileName">Завантаження...</span> <i class="fas fa-check-circle verified-small"></i></h1>
-<p id="profileNiche">
-  <strong id="nicheValue">Lifestyle</strong>
-</p>
+                        <p id="profileNiche">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
                     </div>
                 </div>
             </div>
@@ -301,13 +299,12 @@
                 }
                 const categoryEl = document.getElementById('nicheValue');
                 if (data.category && data.category !== 'null') {
-                    categoryEl.textContent =  ${data.category}`;
-                } else if (data.niche && data.niche !== 'null') {
-                    categoryEl.textContent =  ${data.niche}`;
-               } else {
-                    categoryEl.textContent = 'Lifestyle ';
-                     }
-
+                   categoryEl.textContent = data.category;
+                     } else if (data.niche && data.niche !== 'null') {
+                        categoryEl.textContent = data.niche;
+                    } else {
+                         categoryEl.textContent = 'Lifestyle (Дефолт)';
+                    }
  
                 // Заглушки та додаткові поля
                 // document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
