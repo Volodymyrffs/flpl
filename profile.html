@@ -252,16 +252,18 @@
             } else {
                 document.getElementById('profilePhoto').src = './defaultava.png';
             }
-                 const topSection = document.querySelector('.profile-top-section');
+            // --- Poster як фон для profile-top-content ---
+            const topContent = document.querySelector('.profile-top-content');
             if (data.profileposter && data.profileposter !== 'null') {
                 let posterUrl = data.profileposter.startsWith('http')
                     ? data.profileposter
                     : `http://185.12.143.193:8080${data.profileposter}`;
-                topSection.style.backgroundImage = `url('${posterUrl}')`;
-                topSection.style.backgroundSize = 'cover';
-                topSection.style.backgroundPosition = 'center';
+                topContent.style.backgroundImage = `url('${posterUrl}')`;
+                topContent.style.backgroundSize = 'cover';
+                topContent.style.backgroundPosition = 'center';
+                topContent.style.backgroundRepeat = 'no-repeat';
             } else {
-                topSection.style.backgroundImage = ''; // дефолтний фон
+                topContent.style.backgroundImage = ''; // дефолтний фон
             }
 
                 // Посилання на соціальну мережу
