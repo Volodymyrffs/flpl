@@ -886,7 +886,7 @@ body {
                 0 6px 20px rgba(0, 0, 0, 0.3); /* Сильніша тінь */
 }
 
-/* 2. Текст: робимо текст білим і додаємо тінь для читабельності */
+/* /* 2. Текст: робимо текст білим і додаємо тінь для читабельності */
 .profile-main-info h1,
 .profile-main-info p,
 .profile-main-info strong {
@@ -898,12 +898,36 @@ body {
 .verified-small {
     color: #4CAF50; /* Залишаємо зелену, але переконайтеся, що вона помітна */
     filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.8)); /* Тінь для верифікованої іконки */
+} */
+
+
+
+
+
+.profile-main-info h1,
+.profile-main-info p,
+.profile-main-info strong {
+    /* Основний колір тексту - ЧОРНИЙ */
+    color: #000000 !important; 
+    
+    /* Обводка: Білий контур створюється за допомогою text-shadow */
+    text-shadow: 
+        -1px -1px 0 #fff,  /* Лівий верхній */
+         1px -1px 0 #fff,  /* Правий верхній */
+        -1px  1px 0 #fff,  /* Лівий нижній */
+         1px  1px 0 #fff,  /* Правий нижній */
+         0 0 5px rgba(0, 0, 0, 0.4); /* Невелика тінь для глибини */
 }
 
-
-
-
-
+/* Верифікована галочка: робимо її темно-зеленою, щоб контрастувала з чорним текстом */
+.verified-small {
+    color: #1e8449; /* Темно-зелений */
+    /* Додаємо білу обводку, щоб не зливалася з фоном постера */
+    filter: drop-shadow(-1px -1px 0 #fff) 
+            drop-shadow(1px -1px 0 #fff)
+            drop-shadow(-1px 1px 0 #fff)
+            drop-shadow(1px 1px 0 #fff); 
+}
 
 
 
