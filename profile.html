@@ -242,7 +242,15 @@
 
                 flagBadge.innerHTML = getFlagHtml(countryCode, countryName);
                 // --- КІНЕЦЬ ЛОГІКИ ПРАПОРА ---
-
+                  if (data.profileImg && data.profileImg !== 'null') {
+                let avatarUrl = data.profileImg.startsWith('http')
+                    ? data.profileImg
+                    : `http://185.12.143.193:8080${data.profileImg}`;
+                document.getElementById('profilePhoto').src = avatarUrl;
+            } else {
+                document.getElementById('profilePhoto').src = './defaultava.png';
+            }
+       
                 // Посилання на соціальну мережу
                 const socialLink = document.getElementById('socialLink');
                 const socialURL = data.social || data.website;
