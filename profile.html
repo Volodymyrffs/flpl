@@ -56,7 +56,7 @@
                     <img class="profile-photo" id="profilePhoto" src="./defaultava.png" alt="Фото профілю">
                     <div class="profile-main-info">
                         <h1><span id="profileName">Завантаження...</span> <i class="fas fa-check-circle verified-small"></i></h1>
-                        <p id="profileNiche">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
+                        <p id="profileСategory">Категорія: <strong id="nicheValue">Lifestyle (Дефолт)</strong></p>
                     </div>
                 </div>
             </div>
@@ -232,6 +232,7 @@
                 // Основна інформація (НЕ ЧІПАЄМО bio/subjfl)
                 document.title = `Профіль Інфлюенсера - ${data.name || 'N/A'}`;
                 document.getElementById('profileName').textContent = data.name || 'N/A';
+                document.getElementById('profileCategory').textContent = data.category || 'N/A';
                 document.getElementById('profileEmail').textContent = data.mail || 'N/A';
                 document.getElementById('aboutMe').textContent = data.bio || 'Детальний опис відсутній.'; // Залишаємо data.bio
 
