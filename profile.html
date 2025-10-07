@@ -242,6 +242,8 @@
 
                 flagBadge.innerHTML = getFlagHtml(countryCode, countryName);
                 // --- КІНЕЦЬ ЛОГІКИ ПРАПОРА ---
+
+                
                   if (data.profileImg && data.profileImg !== 'null') {
                 let avatarUrl = data.profileImg.startsWith('http')
                     ? data.profileImg
@@ -250,7 +252,18 @@
             } else {
                 document.getElementById('profilePhoto').src = './defaultava.png';
             }
-       
+                 const topSection = document.querySelector('.profile-top-section');
+            if (data.profileposter && data.profileposter !== 'null') {
+                let posterUrl = data.profileposter.startsWith('http')
+                    ? data.profileposter
+                    : `http://185.12.143.193:8080${data.profileposter}`;
+                topSection.style.backgroundImage = `url('${posterUrl}')`;
+                topSection.style.backgroundSize = 'cover';
+                topSection.style.backgroundPosition = 'center';
+            } else {
+                topSection.style.backgroundImage = ''; // дефолтний фон
+            }
+
                 // Посилання на соціальну мережу
                 const socialLink = document.getElementById('socialLink');
                 const socialURL = data.social || data.website;
