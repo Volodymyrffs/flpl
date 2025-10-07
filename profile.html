@@ -253,17 +253,37 @@
                 document.getElementById('profilePhoto').src = './defaultava.png';
             }
             // --- Poster як фон для profile-top-content ---
-            const topContent = document.querySelector('.profile-top-content');
+            // const topContent = document.querySelector('.profile-top-content');
+            // if (data.profileposter && data.profileposter !== 'null') {
+            //     let posterUrl = data.profileposter.startsWith('http')
+            //         ? data.profileposter
+            //         : `http://185.12.143.193:8080${data.profileposter}`;
+            //     topContent.style.backgroundImage = `url('${posterUrl}')`;
+            //     topContent.style.backgroundSize = 'cover';
+            //     topContent.style.backgroundPosition = 'center';
+            //     topContent.style.backgroundRepeat = 'no-repeat';
+            // } else {
+            //     topContent.style.backgroundImage = ''; // дефолтний фон
+            // }
+
+                const topContent = document.querySelector('.profile-top-content');
             if (data.profileposter && data.profileposter !== 'null') {
                 let posterUrl = data.profileposter.startsWith('http')
                     ? data.profileposter
                     : `http://185.12.143.193:8080${data.profileposter}`;
-                topContent.style.backgroundImage = `url('${posterUrl}')`;
+                
+                // ВАЖЛИВО: Використовуємо лінійний градієнт + URL для оверлею
+                topContent.style.backgroundImage = `
+                    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), 
+                    url('${posterUrl}')
+                `;
                 topContent.style.backgroundSize = 'cover';
                 topContent.style.backgroundPosition = 'center';
                 topContent.style.backgroundRepeat = 'no-repeat';
             } else {
-                topContent.style.backgroundImage = ''; // дефолтний фон
+                // Якщо постера немає, встановлюємо дефолтний градієнт
+                topContent.style.backgroundImage = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'; 
+                topContent.style.backgroundSize = 'auto';
             }
 
                 // Посилання на соціальну мережу
