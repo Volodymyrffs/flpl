@@ -301,12 +301,13 @@
                 }
                 const categoryEl = document.getElementById('nicheValue');
                 if (data.category && data.category !== 'null') {
-                   categoryEl.textContent = data.category;
-                     } else if (data.niche && data.niche !== 'null') {
-                        categoryEl.textContent = data.niche;
-                    } else {
-                         categoryEl.textContent = 'Lifestyle (Дефолт)';
-                    }
+                    categoryEl.textContent =  ${data.category}`;
+                } else if (data.niche && data.niche !== 'null') {
+                    categoryEl.textContent =  ${data.niche}`;
+               } else {
+                    categoryEl.textContent = 'Lifestyle ';
+                     }
+
  
                 // Заглушки та додаткові поля
                 // document.getElementById('nicheValue').textContent = data.category || data.niche || 'Lifestyle (Дефолт)'; 
